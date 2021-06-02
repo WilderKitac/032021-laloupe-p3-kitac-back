@@ -1,9 +1,11 @@
-const express = require("express");
+const express = require('express');
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.status(200).json({ foo: "hello" });
+app.get('/', (req, res) => {
+  res.status(200).json({ foo: 'hello' });
 });
+
+const test = 'test';
 
 module.exports = app;
