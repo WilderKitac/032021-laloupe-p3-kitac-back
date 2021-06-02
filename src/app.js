@@ -6,6 +6,4 @@ app.get('/', (req, res) => {
   res.status(200).json({ foo: 'hello' });
 });
 
-const test = 'test';
-
 module.exports = app;
