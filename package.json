@@ -2,14 +2,14 @@
   "name": "kitac-back",
   "version": "1.0.0",
   "description": "Projet client pour KITAC, back avec NodeJS, Express et MySQL",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
     "lint": "npx eslint --fix *.js src tests *.js",
     "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
     "test": "NODE_ENV=test jest",
-    "precommit": "lint-staged && npm run test"
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",
