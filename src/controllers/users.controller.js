@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/user.model');
 
 const getAllUsers = (req, res) => {
@@ -33,17 +34,28 @@ const getOneUserById = (req, res) => {
 };
 
 const createOneUser = (req, res, next) => {
-  // il faudrait vérifier que les données fournies dans la requête sont correctes
-  const { name, lastname, identifiant, password, phone, picture_profile } = req.body;
-  createOne({ name, lastname, identifiant, password, phone, picture_profile })
-    .then(([results]) => {
-      // res.status(201).json({ id: results.insertId, name, lastname, identifiant, password, phone, picture_profile });
-      req.userId = results.insertId;
-      next();
-    })
-    .catch((err) => {
-      res.status(500).send(err.message);
-    });
+  const { name, email, address, user_password, phone, user_types_id } = req.body;
+  const { error } = Joi.object({
+    name: Joi.string().max(100).required(),
+    email: Joi.string().email().max(100).required(),
+    address: Joi.string().max(255).required(),
+    user_password: Joi.string().max(255).required(),
+    phone: Joi.string().max(30),
+    user_types_id: Joi.number().integer(),
+  }).validate({ name, email, address, user_password, phone, user_types_id }, { abortEarly: false });
+  if (error) {
+    res.status(422).json({ validationErrors: error.details });
+  } else {
+    createOne({ name, email, address, user_password, phone, user_types_id })
+      .then(([results]) => {
+        // res.status(201).json({ id: results.insertId, name, lastname, identifiant, password, phone, picture_profile });
+        req.userId = results.insertId;
+        next();
+      })
+      .catch((err) => {
+        res.status(500).send(err.message);
+      });
+  }
 };
 
 const updateOneUser = (req, res, next) => {
