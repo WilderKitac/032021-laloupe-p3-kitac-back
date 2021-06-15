@@ -39,7 +39,11 @@ const createOneUser = (req, res, next) => {
     name: Joi.string().max(100).required(),
     email: Joi.string().email().max(100).required(),
     address: Joi.string().max(255).required(),
-    user_password: Joi.string().max(255).required(),
+    user_password: Joi.string()
+      .min(8)
+      .max(255)
+      .regex(/^[0-9+]{7}-[0-9+]{1}$/)
+      .required(),
     phone: Joi.string().max(30),
     user_types_id: Joi.number().integer(),
   }).validate({ name, email, address, user_password, phone, user_types_id }, { abortEarly: false });
@@ -59,18 +63,34 @@ const createOneUser = (req, res, next) => {
 };
 
 const updateOneUser = (req, res, next) => {
-  // il faudrait vérifier que les données fournies dans la requête sont correctes
-  updateOne(req.body, req.params.id)
-    .then(([results]) => {
-      if (results.affectedRows === 0) {
-        res.status(404).send('User not found');
-      } else {
-        next();
-      }
-    })
-    .catch((err) => {
-      res.status(500).send(err.message);
-    });
+  const { name, email, address, user_password, phone, user_types_id } = req.body;
+  const { error } = Joi.object({
+    name: Joi.string().max(100).required(),
+    email: Joi.string().email().max(100).required(),
+    address: Joi.string().max(255).required(),
+    user_password: Joi.string()
+      .min(8)
+      .max(255)
+      .regex(/^[0-9+]{7}-[0-9+]{1}$/)
+      .required(),
+    phone: Joi.string().max(30),
+    user_types_id: Joi.number().integer(),
+  }).validate({ name, email, address, user_password, phone, user_types_id }, { abortEarly: false });
+  if (error) {
+    res.status(422).json({ validationErrors: error.details });
+  } else {
+    updateOne(req.body, req.params.id)
+      .then(([results]) => {
+        if (results.affectedRows === 0) {
+          res.status(404).send('User not found');
+        } else {
+          next();
+        }
+      })
+      .catch((err) => {
+        res.status(500).send(err.message);
+      });
+  }
 };
 
 const deleteOneUser = (req, res) => {
