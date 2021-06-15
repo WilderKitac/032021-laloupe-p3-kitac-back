@@ -48,7 +48,7 @@ const createOneUser = (req, res, next) => {
   } else {
     createOne({ name, email, address, user_password, phone, user_types_id })
       .then(([results]) => {
-        // res.status(201).json({ id: results.insertId, name, lastname, identifiant, password, phone, picture_profile });
+        res.status(201);
         req.userId = results.insertId;
         next();
       })

@@ -56,6 +56,7 @@ CREATE TABLE `buys` (
   `size_id` int DEFAULT NULL,
   `material_id` int DEFAULT NULL,
   `supplies_id` int DEFAULT NULL,
+  `buying_date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_buys_products` (`product_id`),
   KEY `fk_buys_users` (`user_id`),
@@ -399,14 +400,14 @@ CREATE TABLE `users` (
   `name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `user_password` varchar(255) NOT NULL,
   `phone` varchar(30) DEFAULT NULL,
   `user_types_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_user_type` (`user_types_id`),
   CONSTRAINT `fk_user_type` FOREIGN KEY (`user_types_id`) REFERENCES `user_types` (`id`),
   CONSTRAINT `fk_users_user_types` FOREIGN KEY (`user_types_id`) REFERENCES `user_types` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -415,6 +416,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (2,'damien','dland@email.com','2 rue du test','12345678Pass',NULL,NULL),(3,'damien','dland@email.com','2 rue du test','12345678Pass',NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -427,4 +429,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-10 14:51:07
+-- Dump completed on 2021-06-15 12:12:18
