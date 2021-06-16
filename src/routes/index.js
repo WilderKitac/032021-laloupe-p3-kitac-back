@@ -10,6 +10,10 @@ const materialsRoutes = require('./materials.routes');
 const genderRoutes = require('./gender.routes');
 const madesOfRoutes = require('./madesOf.routes');
 const APIProductsRoutes = require('./APIProducts.routes');
+const imagesRoutes = require('./productsImages.routes');
+const representsRoutes = require('./represents.routes');
+const characterisesRoutes = require('./characterises.routes');
+const categoryProductRoutes = require('./categoryProduct.routes');
 
 mainRouter.use('/users', usersRoutes);
 mainRouter.use('/userTypes', userTypesRoutes);
@@ -23,6 +27,10 @@ mainRouter.use('/materials', materialsRoutes);
 mainRouter.use('/gender', genderRoutes);
 mainRouter.use('/madesOf', madesOfRoutes);
 mainRouter.use('/size', sizeRoutes);
-mainRouter.use('/apiproducts', APIProductsRoutes)
+mainRouter.use('/apiproducts', APIProductsRoutes);
+mainRouter.use('/productsimages', imagesRoutes);
+mainRouter.use('/represents', representsRoutes);
+mainRouter.use('/characterises', characterisesRoutes);
+mainRouter.use('/categoryProduct', categoryProductRoutes);
 
 module.exports = mainRouter;
