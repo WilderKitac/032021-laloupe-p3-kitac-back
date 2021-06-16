@@ -35,16 +35,16 @@ const getOneCharacterisesById = (req, res) => {
 };
 
 const createOneCharacterises = (req, res, next) => {
-  const { productId, sizeId, genderId } = req.body;
+  const { productId, sizeId, gender_id } = req.body;
   const { error } = Joi.object({
     productId: Joi.number().integer(),
     sizeId: Joi.number().integer(),
-    genderId: Joi.number().integer(),
-  }).validate({ productId, sizeId, genderId }, { abortEarly: false });
+    gender_id: Joi.number().integer(),
+  }).validate({ productId, sizeId, gender_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
-    createOne({ productId, sizeId, genderId })
+    createOne({ productId, sizeId, gender_id })
       .then(([results]) => {
         res.status(201);
         req.characterisesId = results.insertId;
@@ -57,11 +57,12 @@ const createOneCharacterises = (req, res, next) => {
 };
 
 const updateOneCharacterises = (req, res, next) => {
-  const { productId, sizeId } = req.body;
+  const { productId, sizeId, gender_id } = req.body;
   const { error } = Joi.object({
-    productId: Joi.string().max(255).required(),
-    sizeId: Joi.string().max(255).required(),
-  }).validate({ productId, sizeId, genderId }, { abortEarly: false });
+    productId: Joi.number().integer(),
+    sizeId: Joi.number().integer(),
+    gender_id: Joi.number().integer(),
+  }).validate({ productId, sizeId, gender_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
