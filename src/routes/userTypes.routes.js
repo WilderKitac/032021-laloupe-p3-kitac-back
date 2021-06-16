@@ -1,4 +1,4 @@
-const kitacRouter = require('express').Router();
+const userTypesRouter = require('express').Router();
 const {
   getAllUserTypes,
   getOneUserTypeById,
@@ -7,10 +7,10 @@ const {
   deleteOneUserType,
 } = require('../controllers/userTypes.controller');
 
-kitacRouter.get('/', getAllUserTypes);
-kitacRouter.get('/:id', getOneUserTypeById);
-kitacRouter.post('/', createOneUserType, getOneUserTypeById);
-kitacRouter.put('/:id', updateOneUserType, getOneUserTypeById);
-kitacRouter.delete('/:id', deleteOneUserType);
+userTypesRouter.get('/', getAllUserTypes);
+userTypesRouter.get('/:id', getOneUserTypeById);
+userTypesRouter.post('/', createOneUserType, getOneUserTypeById);
+userTypesRouter.put('/:id', updateOneUserType, getOneUserTypeById);
+userTypesRouter.delete('/:id', deleteOneUserType);
 
-module.exports = kitacRouter;
+module.exports = userTypesRouter;
