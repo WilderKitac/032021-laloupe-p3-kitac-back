@@ -1,16 +1,16 @@
-const characterises = require('express').Router();
+const categoryProduct = require('express').Router();
 const {
-  getAllCharacterises,
-  getOneCharacterisesById,
-  createOneCharacterises,
-  updateOneCharacterises,
-  deleteOneCharacterises,
-} = require('../controllers/characterises');
+  getAllCategoryProduct,
+  getOneCategoryProductById,
+  createOneCategoryProduct,
+  updateOneCategoryProduct,
+  deleteOneCategoryProduct,
+} = require('../controllers/categoryProduct');
 
-characterises.get('/', getAllCharacterises);
-characterises.get('/:id', getOneCharacterisesById);
-characterises.post('/', createOneCharacterises, getOneCharacterisesById);
-characterises.put('/:id', updateOneCharacterises, getOneCharacterisesById);
-characterises.delete('/:id', deleteOneCharacterises);
+categoryProduct.get('/', getAllCategoryProduct);
+categoryProduct.get('/:id', getOneCategoryProductById);
+categoryProduct.post('/', createOneCategoryProduct, getOneCategoryProductById);
+categoryProduct.put('/:id', updateOneCategoryProduct, getOneCategoryProductById);
+categoryProduct.delete('/:id', deleteOneCategoryProduct);
 
-module.exports = characterises;
+module.exports = categoryProduct;
