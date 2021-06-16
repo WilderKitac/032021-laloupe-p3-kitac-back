@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/characterises');
+const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/characterises.model');
 
 const getAllCharacterises = (req, res) => {
   findMany()

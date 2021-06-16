@@ -5,7 +5,7 @@ const {
   createOneCategoryProduct,
   updateOneCategoryProduct,
   deleteOneCategoryProduct,
-} = require('../controllers/categoryProduct');
+} = require('../controllers/categoryProduct.controller');
 
 categoryProduct.get('/', getAllCategoryProduct);
 categoryProduct.get('/:id', getOneCategoryProductById);
