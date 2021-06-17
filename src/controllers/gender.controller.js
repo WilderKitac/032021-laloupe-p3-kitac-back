@@ -36,7 +36,7 @@ const getOneGenderById = (req, res) => {
 const createOneGender = (req, res, next) => {
   const { title } = req.body;
   const { error } = Joi.object({
-   title: Joi.string().max(50),
+    title: Joi.string().max(50),
   }).validate({ title }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
@@ -57,7 +57,9 @@ const updateOneGender = (req, res, next) => {
   const { title } = req.body;
   const { error } = Joi.object({
     title: Joi.string().max(50),
-  }).validate({ title }, { abortEarly: false });
+  })
+    .min(1)
+    .validate({ title }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {

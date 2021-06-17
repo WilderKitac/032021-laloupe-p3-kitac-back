@@ -1,6 +1,11 @@
 const categoryProductRouter = require('express').Router();
 const {
-  getAllCategoryProduct, getOneCategoryProductById, createOneCategoryProduct, updateOneCategoryProduct, deleteOneCategoryProduct} = require('../controllers/categoryProduct.controller');
+  getAllCategoryProduct,
+  getOneCategoryProductById,
+  createOneCategoryProduct,
+  updateOneCategoryProduct,
+  deleteOneCategoryProduct,
+} = require('../controllers/categoryProduct.controller');
 
 categoryProductRouter.get('/', getAllCategoryProduct);
 categoryProductRouter.get('/:id', getOneCategoryProductById);

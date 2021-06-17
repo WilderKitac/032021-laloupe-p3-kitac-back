@@ -60,7 +60,9 @@ const updateOneCategoryProduct = (req, res, next) => {
   const { error } = Joi.object({
     product_id: Joi.number().integer(),
     category_id: Joi.number().integer(),
-  }).validate({ product_id, category_id }, { abortEarly: false });
+  })
+    .min(1)
+    .validate({ product_id, category_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {

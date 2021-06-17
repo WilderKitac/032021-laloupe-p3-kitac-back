@@ -19,7 +19,6 @@ const getOneCategoryById = (req, res) => {
   } else {
     id = req.params.id;
   }
-  console.log(id)
 
   findOneById(id)
     .then(([Category]) => {
@@ -43,10 +42,8 @@ const createOneCategory = (req, res, next) => {
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
-    console.log(name);
     createOne({ name })
       .then(([results]) => {
-        console.log(results)
         req.categoryId = results.insertId;
         next();
       })
@@ -59,8 +56,10 @@ const createOneCategory = (req, res, next) => {
 const updateOneCategory = (req, res, next) => {
   const { name } = req.body;
   const { error } = Joi.object({
-    name: Joi.string().max(100).required(),
-  }).validate({ name }, { abortEarly: false });
+    name: Joi.string().max(100),
+  })
+    .min(1)
+    .validate({ name }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
