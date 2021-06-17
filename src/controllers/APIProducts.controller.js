@@ -59,7 +59,9 @@ const updateOneAPIProducts = (req, res, next) => {
   const { error } = Joi.object({
     product_id: Joi.number().integer(),
     API_product_id: Joi.number().integer(),
-  }).validate({ product_id, API_product_id }, { abortEarly: false });
+  })
+    .min(1)
+    .validate({ product_id, API_product_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {

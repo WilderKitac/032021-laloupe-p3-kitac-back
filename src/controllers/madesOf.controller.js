@@ -22,7 +22,7 @@ const getOneMadesOfById = (req, res) => {
 
   findOneById(id)
     .then(([madesOf]) => {
-      if (Users.length === 0) {
+      if (madesOf.length === 0) {
         res.status(404).send('Mades of not found');
       } else {
         res.json(madesOf[0]);
