@@ -58,10 +58,12 @@ const createOneSupplies = (req, res, next) => {
 const updateOneSupplies = (req, res, next) => {
   const { title, content, price } = req.body;
   const { error } = Joi.object({
-    title: Joi.string().max(50).required(),
-    content: Joi.string().max(50).required(),
+    title: Joi.string().max(50),
+    content: Joi.string().max(50),
     price: Joi.number().precision(2),
-  }).validate({ title, content, price }, { abortEarly: false });
+  })
+    .min(1)
+    .validate({ title, content, price }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {

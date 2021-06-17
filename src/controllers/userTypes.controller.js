@@ -56,8 +56,10 @@ const createOneUserType = (req, res, next) => {
 const updateOneUserType = (req, res, next) => {
   const { title } = req.body;
   const { error } = Joi.object({
-    title: Joi.string().max(100).required(),
-  }).validate({ title }, { abortEarly: false });
+    title: Joi.string().max(100),
+  })
+    .min(1)
+    .validate({ title }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
