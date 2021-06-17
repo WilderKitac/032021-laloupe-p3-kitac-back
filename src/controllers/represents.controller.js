@@ -58,9 +58,11 @@ const createOneRepresents = (req, res, next) => {
 const updateOneRepresents = (req, res, next) => {
   const { product_id, productImages_id } = req.body;
   const { error } = Joi.object({
-    product_id: Joi.number().integer().required(),
-    productImages_id: Joi.number().integer().required(),
-  }).validate({ product_id, productImages_id }, { abortEarly: false });
+    product_id: Joi.number().integer(),
+    productImages_id: Joi.number().integer(),
+  })
+    .min(1)
+    .validate({ product_id, productImages_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {

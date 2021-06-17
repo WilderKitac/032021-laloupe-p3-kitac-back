@@ -36,8 +36,8 @@ const getOneSizeById = (req, res) => {
 const createOneSize = (req, res, next) => {
   const { size_number, size_letter } = req.body;
   const { error } = Joi.object({
-      size_number: Joi.number().integer(),
-      size_letter: Joi.string().max(4),
+    size_number: Joi.number().integer(),
+    size_letter: Joi.string().max(4),
   }).validate({ size_number, size_letter }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
@@ -59,7 +59,9 @@ const updateOneSize = (req, res, next) => {
   const { error } = Joi.object({
     size_number: Joi.number.integer(),
     size_letter: Joi.string().max(4),
-  }).validate({ size_number, size_letter }, { abortEarly: false });
+  })
+    .min(1)
+    .validate({ size_number, size_letter }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
