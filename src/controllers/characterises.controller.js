@@ -62,7 +62,9 @@ const updateOneCharacterises = (req, res, next) => {
     product_id: Joi.number().integer(),
     size_id: Joi.number().integer(),
     gender_id: Joi.number().integer(),
-  }).validate({ product_id, size_id, gender_id }, { abortEarly: false });
+  })
+    .min(1)
+    .validate({ product_id, size_id, gender_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
