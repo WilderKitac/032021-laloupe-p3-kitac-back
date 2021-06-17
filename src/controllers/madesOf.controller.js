@@ -22,7 +22,7 @@ const getOneMadesOfById = (req, res) => {
 
   findOneById(id)
     .then(([madesOf]) => {
-      if (Users.length === 0) {
+      if (madesOf.length === 0) {
         res.status(404).send('Mades of not found');
       } else {
         res.json(madesOf[0]);
@@ -59,7 +59,9 @@ const updateOneMadesOf = (req, res, next) => {
   const { error } = Joi.object({
     product_id: Joi.number().integer(),
     materials_id: Joi.number().integer(),
-  }).validate({ product_id, materials_id }, { abortEarly: false });
+  })
+    .min(1)
+    .validate({ product_id, materials_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
