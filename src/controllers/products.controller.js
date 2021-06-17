@@ -62,14 +62,16 @@ const createOneProduct = (req, res, next) => {
 const updateOneProduct = (req, res, next) => {
   const { name, description, difficulty, completion_time, product_price, pieces, supplies_id } = req.body;
   const { error } = Joi.object({
-    name: Joi.string().max(100).required(),
+    name: Joi.string().max(100),
     description: Joi.string().max(255),
     difficulty: Joi.string().max(100),
     completion_time: Joi.string().max(100),
     product_price: Joi.number().precision(2),
-    pieces: Joi.string().max(100).required(),
+    pieces: Joi.string().max(100),
     supplies_id: Joi.number().integer(),
-  }).validate({ name, description, difficulty, completion_time, product_price, pieces, supplies_id }, { abortEarly: false });
+  })
+    .min(1)
+    .validate({ name, description, difficulty, completion_time, product_price, pieces, supplies_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {

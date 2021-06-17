@@ -58,9 +58,11 @@ const createOneImages = (req, res, next) => {
 const updateOneImages = (req, res, next) => {
   const { link, alt } = req.body;
   const { error } = Joi.object({
-    link: Joi.string().max(255).required(),
-    alt: Joi.string().max(255).required(),
-  }).validate({ link, alt }, { abortEarly: false });
+    link: Joi.string().max(255),
+    alt: Joi.string().max(255),
+  })
+    .min(1)
+    .validate({ link, alt }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
