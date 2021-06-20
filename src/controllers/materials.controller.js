@@ -34,17 +34,17 @@ const getOneMaterialsById = (req, res) => {
 };
 
 const createOneMaterials = (req, res, next) => {
-  const { materials_type, materials_price, quantity, API_Mat_id } = req.body;
+  const { material_type, material_price, quantity, API_Mat_id } = req.body;
   const { error } = Joi.object({
-    materials_type: Joi.string().max(100).required(),
-    materials_price: Joi.number().precision(2).required(),
+    material_type: Joi.string().max(100).required(),
+    material_price: Joi.number().precision(2).required(),
     quantity: Joi.number().integer().required(),
     API_Mat_id: Joi.number().integer(),
-  }).validate({ materials_type, materials_price, quantity, API_Mat_id }, { abortEarly: false });
+  }).validate({ material_type, material_price, quantity, API_Mat_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
-    createOne({ materials_type, materials_price, quantity, API_Mat_id })
+    createOne({ material_type, material_price, quantity, API_Mat_id })
       .then(([results]) => {
         res.status(201);
         req.materialsId = results.insertId;
@@ -57,15 +57,15 @@ const createOneMaterials = (req, res, next) => {
 };
 
 const updateOneMaterials = (req, res, next) => {
-  const { materials_type, materials_price, quantity, API_Mat_id } = req.body;
+  const { material_type, material_price, quantity, API_Mat_id } = req.body;
   const { error } = Joi.object({
-    materials_type: Joi.string().max(100),
-    materials_price: Joi.number().precision(2),
+    material_type: Joi.string().max(100),
+    material_price: Joi.number().precision(2),
     quantity: Joi.number().integer(),
     API_Mat_id: Joi.number().integer(),
   })
     .min(1)
-    .validate({ materials_type, materials_price, quantity, API_Mat_id }, { abortEarly: false });
+    .validate({ material_type, material_price, quantity, API_Mat_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {

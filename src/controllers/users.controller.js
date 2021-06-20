@@ -1,5 +1,15 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/user.model');
+const {
+  emailAlreadyExists,
+  hashPassword,
+  verifyPassword,
+  findMany,
+  findOneById,
+  findOneByEmail,
+  createOne,
+  updateOne,
+  deleteOne,
+} = require('../models/user.model');
 
 const getAllUsers = (req, res) => {
   findMany()
@@ -33,32 +43,38 @@ const getOneUserById = (req, res) => {
     });
 };
 
-const createOneUser = (req, res, next) => {
-  const { name, email, address, user_password, phone, user_types_id } = req.body;
+const createOneUser = async (req, res, next) => {
+  const { name, email, address, clearPassword, phone, user_types_id } = req.body;
   const { error } = Joi.object({
     name: Joi.string().max(100).required(),
     email: Joi.string().email().max(100).required(),
     address: Joi.string().max(255).required(),
-    user_password: Joi.string().pattern(new RegExp('^(?=.[0-9])(?=.[a-z])(?=.[A-Z])(?=.[*.!@$%^&(){}[]:;<>,.?/]).{8,128}$')).required(),
+    clearPassword: Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})')).required(),
     phone: Joi.string().max(30),
     user_types_id: Joi.number().integer(),
-  }).validate({ name, email, address, user_password, phone, user_types_id }, { abortEarly: false });
+  }).validate({ name, email, address, clearPassword, phone, user_types_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
-    createOne({ name, email, address, user_password, phone, user_types_id })
-      .then(([results]) => {
-        res.status(201);
-        req.userId = results.insertId;
-        next();
-      })
-      .catch((err) => {
-        res.status(500).send(err.message);
-      });
+    const emailIsExisting = await emailAlreadyExists(email);
+    if (emailIsExisting) {
+      res.status(422).send('Email already used');
+    } else {
+      const user_password = await hashPassword(clearPassword);
+      createOne({ name, email, address, user_password, phone, user_types_id })
+        .then(([results]) => {
+          res.status(201);
+          req.userId = results.insertId;
+          next();
+        })
+        .catch((err) => {
+          res.status(500).send(err.message);
+        });
+    }
   }
 };
 
-const updateOneUser = (req, res, next) => {
+const updateOneUser = async (req, res, next) => {
   const { name, email, address, user_password, phone, user_types_id } = req.body;
   const { error } = Joi.object({
     name: Joi.string().max(100),
@@ -73,6 +89,9 @@ const updateOneUser = (req, res, next) => {
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
+    if (req.body.user_password) {
+      req.body.user_password = await hashPassword(user_password);
+    }
     updateOne(req.body, req.params.id)
       .then(([results]) => {
         if (results.affectedRows === 0) {
@@ -101,10 +120,27 @@ const deleteOneUser = (req, res) => {
     });
 };
 
+const verifyCredentials = async (req, res, next) => {
+  const { email, password } = req.body;
+  const [users] = await findOneByEmail(email);
+  if (!users[0]) {
+    res.status(404).send('User not found');
+  } else {
+    const [user] = users;
+    const passwordIsValid = await verifyPassword(password, user.user_password);
+    if (passwordIsValid) {
+      res.send("you're login");
+    } else {
+      res.status(401).send('Your email or your password is wrong');
+    }
+  }
+};
+
 module.exports = {
   getAllUsers,
   getOneUserById,
   createOneUser,
   updateOneUser,
   deleteOneUser,
+  verifyCredentials,
 };
