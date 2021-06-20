@@ -9,7 +9,6 @@ const emailAlreadyExists = async (email) => {
 };
 
 const hashPassword = (password) => {
-  console.log(password);
   return argon2.hash(password);
 };
 
