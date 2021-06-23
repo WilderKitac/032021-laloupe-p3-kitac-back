@@ -25,10 +25,17 @@ const deleteOne = (id) => {
   return connection.promise().query(sql, [id]);
 };
 
+const findProductsPerCategoryId = (id) => {
+  const sql =
+    'SELECT c.id category_id, p.id product_id, p.name, p.description, p.product_price FROM category c JOIN category_product cp ON cp.category_id=c.id JOIN products p ON p.id = cp.product_id WHERE c.id=?';
+  return connection.promise().query(sql, [id]);
+};
+
 module.exports = {
   findMany,
   findOneById,
   createOne,
   updateOne,
   deleteOne,
+  findProductsPerCategoryId,
 };

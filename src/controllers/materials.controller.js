@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/materials.model');
+const { findMany, findOneById, createOne, updateOne, deleteOne, findMaterialsPerProductId } = require('../models/materials.model');
 
 const getAllMaterials = (req, res) => {
   findMany()
@@ -97,10 +97,33 @@ const deleteOneMaterials = (req, res) => {
     });
 };
 
+const getMaterialsByProductId = (req, res, next) => {
+  let id;
+  if (req.productId) {
+    id = req.productId;
+  } else {
+    id = req.params.id;
+  }
+
+  findMaterialsPerProductId(id)
+    .then(([Product]) => {
+      if (Product.length === 0) {
+        res.status(404).send('Product not found');
+      } else {
+        res.json(Product);
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 module.exports = {
   getAllMaterials,
   getOneMaterialsById,
   createOneMaterials,
   updateOneMaterials,
   deleteOneMaterials,
+  getMaterialsByProductId,
 };

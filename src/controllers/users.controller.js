@@ -89,20 +89,25 @@ const updateOneUser = async (req, res, next) => {
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
-    if (req.body.user_password) {
-      req.body.user_password = await hashPassword(user_password);
+    const emailIsExisting = await emailAlreadyExists(email);
+    if (emailIsExisting) {
+      if (req.body.user_password) {
+        req.body.user_password = await hashPassword(user_password);
+      }
+      updateOne(req.body, req.params.id)
+        .then(([results]) => {
+          if (results.affectedRows === 0) {
+            res.status(404).send('User not found');
+          } else {
+            next();
+          }
+        })
+        .catch((err) => {
+          res.status(500).send(err.message);
+        });
+    } else {
+      res.status(422).send('Email already used');
     }
-    updateOne(req.body, req.params.id)
-      .then(([results]) => {
-        if (results.affectedRows === 0) {
-          res.status(404).send('User not found');
-        } else {
-          next();
-        }
-      })
-      .catch((err) => {
-        res.status(500).send(err.message);
-      });
   }
 };
 
