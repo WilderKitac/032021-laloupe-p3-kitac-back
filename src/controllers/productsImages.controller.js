@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/productsImages');
+const { findMany, findOneById, createOne, updateOne, deleteOne, findImagesPerProductId } = require('../models/productsImages.model');
 
 const getAllImages = (req, res) => {
   findMany()
@@ -94,10 +94,34 @@ const deleteOneImages = (req, res) => {
     });
 };
 
+const getImagesByProductId = (req, res, next) => {
+  let id;
+  if (req.productId) {
+    id = req.productId;
+  } else {
+    id = req.params.id;
+  }
+
+  findImagesPerProductId(id)
+    .then(([Product]) => {
+      if (Product.length === 0) {
+        res.status(404).send('Product not found');
+      } else {
+        req.product.images = Product;
+        res.json(req.product);
+        // next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 module.exports = {
   getAllImages,
   getOneImagesById,
   createOneImages,
   updateOneImages,
   deleteOneImages,
+  getImagesByProductId,
 };
