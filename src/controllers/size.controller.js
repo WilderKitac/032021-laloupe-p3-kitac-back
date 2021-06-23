@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/size.model');
+const { findMany, findOneById, createOne, updateOne, deleteOne, findSizePerProductId } = require('../models/size.model');
 
 const getAllSize = (req, res) => {
   findMany()
@@ -91,7 +91,30 @@ const deleteOneSize = (req, res) => {
     .catch((err) => {
       res.status(500).send(err.message);
     });
+  };
+  
+const getSizeByProductId = (req, res, next) => {
+  let id;
+  if (req.productId) {
+    id = req.productId;
+  } else {
+    id = req.params.id;
+  }
+
+  findSizePerProductId(id)
+    .then(([Product]) => {
+      if (Product.length === 0) {
+        res.status(404).send('Product not found');
+      } else {
+        res.json(Product);
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
 };
+
 
 module.exports = {
   getAllSize,
@@ -99,4 +122,5 @@ module.exports = {
   createOneSize,
   updateOneSize,
   deleteOneSize,
+  getSizeByProductId,
 };
