@@ -105,7 +105,7 @@ const getImagesByProductId = (req, res, next) => {
   findImagesPerProductId(id)
     .then(([Product]) => {
       if (Product.length === 0) {
-        res.status(404).send('Product not found');
+        res.status(404).send('Images not found for this product');
       } else {
         req.product.images = Product;
         next();

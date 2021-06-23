@@ -108,7 +108,7 @@ const getMaterialsByProductId = (req, res, next) => {
   findMaterialsPerProductId(id)
     .then(([Product]) => {
       if (Product.length === 0) {
-        res.status(404).send('Product not found');
+        res.status(404).send('Material not found for this product');
       } else {
         req.product = { materials: Product };
         next();

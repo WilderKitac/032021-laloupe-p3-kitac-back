@@ -9,8 +9,6 @@ productsRoute.get('/:id', getOneProductById);
 productsRoute.post('/', createOneProduct, getOneProductById);
 productsRoute.put('/:id', updateOneProduct, getOneProductById);
 productsRoute.delete('/:id', deleteOneProduct);
-productsRoute.get('/:id/productsheet', getMaterialsByProductId, getImagesByProductId, getSizeByProductId);
-productsRoute.get('/:id/images', getImagesByProductId);
-productsRoute.get('/:id/size',  getSizeByProductId);
+productsRoute.get('/:id/productsheet', getMaterialsByProductId, getImagesByProductId, getSizeByProductId, getOneProductById);
 
 module.exports = productsRoute;
