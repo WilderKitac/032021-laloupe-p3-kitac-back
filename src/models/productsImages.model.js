@@ -25,10 +25,17 @@ const deleteOne = (id) => {
   return connection.promise().query(sql, [id]);
 };
 
+const findImagesPerProductId = (id) => {
+  const sql =
+    'SELECT p.id, i.* FROM products p JOIN represents r ON r.product_id=p.id RIGHT JOIN products_images i ON i.id=r.product_images_id WHERE p.id=?';
+  return connection.promise().query(sql, [id]);
+};
+
 module.exports = {
   findMany,
   findOneById,
   createOne,
   updateOne,
   deleteOne,
+  findImagesPerProductId,
 };

@@ -12,7 +12,7 @@ const getAllProducts = (req, res) => {
     });
 };
 
-const getOneProductById = (req, res) => {
+const getOneProductById = (req, res, next) => {
   let id;
   if (req.productId) {
     id = req.productId;
@@ -26,6 +26,7 @@ const getOneProductById = (req, res) => {
         res.status(404).send('Product not found');
       } else {
         res.json(Product[0]);
+        next();
       }
     })
     .catch((err) => {
