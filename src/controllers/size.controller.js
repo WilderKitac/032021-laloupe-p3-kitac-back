@@ -106,8 +106,8 @@ const getSizeByProductId = (req, res, next) => {
       if (Product.length === 0) {
         res.status(404).send('Product not found');
       } else {
-        res.json(Product);
-        next();
+        req.product.size = Product;
+        res.json(req.product);
       }
     })
     .catch((err) => {

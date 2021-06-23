@@ -108,8 +108,7 @@ const getImagesByProductId = (req, res, next) => {
         res.status(404).send('Product not found');
       } else {
         req.product.images = Product;
-        res.json(req.product);
-        // next();
+        next();
       }
     })
     .catch((err) => {
