@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/category.model');
+const { findMany, findOneById, createOne, updateOne, deleteOne, findProductsPerCategoryId } = require('../models/category.model');
 
 const getAllCategory = (req, res) => {
   findMany()
@@ -37,7 +37,6 @@ const createOneCategory = (req, res, next) => {
   const { name } = req.body;
   const { error } = Joi.object({
     name: Joi.string().max(100).required(),
-    category_types_id: Joi.number().integer(),
   }).validate({ name }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
@@ -90,6 +89,28 @@ const deleteOneCategory = (req, res) => {
       res.status(500).send(err.message);
     });
 };
+// premier join
+const getProductsByCategoryId = (req, res, next) => {
+  let id;
+  if (req.categoryId) {
+    id = req.categoryId;
+  } else {
+    id = req.params.id;
+  }
+
+  findProductsPerCategoryId(id)
+    .then(([Category]) => {
+      if (Category.length === 0) {
+        res.status(404).send('Category not found');
+      } else {
+        res.json(Category);
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
 
 module.exports = {
   getAllCategory,
@@ -97,4 +118,5 @@ module.exports = {
   createOneCategory,
   updateOneCategory,
   deleteOneCategory,
+  getProductsByCategoryId,
 };
