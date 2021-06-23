@@ -37,7 +37,6 @@ const createOneCategory = (req, res, next) => {
   const { name } = req.body;
   const { error } = Joi.object({
     name: Joi.string().max(100).required(),
-    category_types_id: Joi.number().integer(),
   }).validate({ name }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
