@@ -85,7 +85,7 @@ CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,6 +94,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'Homme'),(2,'Femme'),(3,'Enfant'),(4,'Accessoire'),(5,'Deco');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +114,7 @@ CREATE TABLE `category_product` (
   KEY `fk_category_product_category` (`category_id`),
   CONSTRAINT `fk_category_product_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `fk_category_product_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +123,7 @@ CREATE TABLE `category_product` (
 
 LOCK TABLES `category_product` WRITE;
 /*!40000 ALTER TABLE `category_product` DISABLE KEYS */;
+INSERT INTO `category_product` VALUES (1,3,2),(2,3,3),(3,4,1),(4,4,3),(5,5,2),(6,6,5),(7,7,4);
 /*!40000 ALTER TABLE `category_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +169,7 @@ CREATE TABLE `gender` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,6 +178,7 @@ CREATE TABLE `gender` (
 
 LOCK TABLES `gender` WRITE;
 /*!40000 ALTER TABLE `gender` DISABLE KEYS */;
+INSERT INTO `gender` VALUES (1,'Homme'),(2,'Femme'),(3,'Enfants');
 /*!40000 ALTER TABLE `gender` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,7 +198,7 @@ CREATE TABLE `mades_of` (
   KEY `fk_mades_of_materials` (`materials_id`),
   CONSTRAINT `fk_mades_of_materials` FOREIGN KEY (`materials_id`) REFERENCES `materials` (`id`),
   CONSTRAINT `fk_mades_of_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,6 +207,7 @@ CREATE TABLE `mades_of` (
 
 LOCK TABLES `mades_of` WRITE;
 /*!40000 ALTER TABLE `mades_of` DISABLE KEYS */;
+INSERT INTO `mades_of` VALUES (1,3,1),(2,3,2),(3,4,1),(4,4,2),(5,4,3),(6,5,2),(7,5,4),(8,6,2),(9,7,2),(10,7,3),(11,7,4);
 /*!40000 ALTER TABLE `mades_of` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,10 +222,10 @@ CREATE TABLE `materials` (
   `id` int NOT NULL AUTO_INCREMENT,
   `material_type` varchar(100) NOT NULL,
   `material_price` float(5,2) NOT NULL,
-  `quantity` int DEFAULT NULL,
+  `quantity` int NOT NULL,
   `API_Mat_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,6 +234,7 @@ CREATE TABLE `materials` (
 
 LOCK TABLES `materials` WRITE;
 /*!40000 ALTER TABLE `materials` DISABLE KEYS */;
+INSERT INTO `materials` VALUES (1,'Lin',5.40,1000,NULL),(2,'Coton',1.23,2000,NULL),(3,'Flanelle',8.40,500,NULL),(4,'Soie',10.80,200,NULL);
 /*!40000 ALTER TABLE `materials` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -252,7 +257,7 @@ CREATE TABLE `products` (
   PRIMARY KEY (`id`),
   KEY `fk_products_supplies` (`supplies_id`),
   CONSTRAINT `fk_products_supplies` FOREIGN KEY (`supplies_id`) REFERENCES `supplies` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -261,6 +266,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` VALUES (3,'Pantalon','Un magnifique pantalon à fleur','Moyenne','24h',45.00,'avant, après, poches',1),(4,'Chemise','Le must have de cet été','Difficile','72h',60.00,'avant, arrière, col, manches',2),(5,'Robe','LA robe pour se la péter en soirée','Moyenne','18h',120.00,'avant, arrière',NULL),(6,'Rideau','Pour vous cacher du regard de vos voisins avec élégance','Facile','6h',30.00,'principal, doublure',3),(7,'Drap','Pour passer de belles nuits','Facile','6h',20.00,'principal',NULL);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -276,7 +282,7 @@ CREATE TABLE `products_images` (
   `link` varchar(255) DEFAULT NULL,
   `alt` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -285,6 +291,7 @@ CREATE TABLE `products_images` (
 
 LOCK TABLES `products_images` WRITE;
 /*!40000 ALTER TABLE `products_images` DISABLE KEYS */;
+INSERT INTO `products_images` VALUES (1,'https://www.dolcegabbana.com/dw/image/v2/AAGA_PRD/on/demandware.static/-/Sites-15/default/dwfe7b1b65/images/zoom/I3C02WHPAAQ_HR2ZI_0.jpg?sw=742&sh=944&sm=fit','Un pantalon pas beaux a fleur'),(2,'https://img01.ztat.net/article/spp-media-p1/9753872023d63b2b8bc9c9f7b89e7246/e79ee0b39bc34506922100f52cd1b13e.jpg?imwidth=762&filter=packshot','Une chemise incroyable'),(3,'https://witt.eu/product/resized/040/040.00ZUK92341-A01.069_7_bg.jpg','Une Robe tendance'),(4,'https://www.univers-decor.com/8087-thickbox_default/lot-de-2-rideaux-occultant-taupe-clair-140-x-260-cm.jpg','Des dideaux detailler'),(5,'http://www.lesdoucesnuitsdemae.com/media/catalog/product/cache/1/image/500x500/9df78eab33525d08d6e5fb8d27136e95/h/o/housse-couette-belle-nuit-1643470.jpg','Des drap funky');
 /*!40000 ALTER TABLE `products_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -328,7 +335,7 @@ CREATE TABLE `size` (
   `size_number` int DEFAULT NULL,
   `size_letter` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -337,6 +344,7 @@ CREATE TABLE `size` (
 
 LOCK TABLES `size` WRITE;
 /*!40000 ALTER TABLE `size` DISABLE KEYS */;
+INSERT INTO `size` VALUES (1,34,'s'),(2,38,'M'),(3,42,'L'),(4,46,'XL'),(5,50,'2XL'),(6,54,'3XL'),(7,58,'4XL'),(8,62,'5XL');
 /*!40000 ALTER TABLE `size` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -353,7 +361,7 @@ CREATE TABLE `supplies` (
   `content` varchar(50) DEFAULT NULL,
   `price` float(5,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -362,6 +370,7 @@ CREATE TABLE `supplies` (
 
 LOCK TABLES `supplies` WRITE;
 /*!40000 ALTER TABLE `supplies` DISABLE KEYS */;
+INSERT INTO `supplies` VALUES (1,'Kit fermeture','Fermeture éclair',10.00),(2,'Kit boutons','boutons',12.00),(3,'Kit rideaux','cerceaux',5.00);
 /*!40000 ALTER TABLE `supplies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,7 +385,7 @@ CREATE TABLE `user_types` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -407,7 +416,7 @@ CREATE TABLE `users` (
   KEY `fk_user_type` (`user_types_id`),
   CONSTRAINT `fk_user_type` FOREIGN KEY (`user_types_id`) REFERENCES `user_types` (`id`),
   CONSTRAINT `fk_users_user_types` FOREIGN KEY (`user_types_id`) REFERENCES `user_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -416,7 +425,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'damien','dland@email.com','2 rue du test','12345678Pass',NULL,NULL),(3,'damien','dland@email.com','2 rue du test','12345678Pass',NULL,NULL);
+INSERT INTO `users` VALUES (2,'damien','dland@email.com','2 rue du test','12345678Pass',NULL,NULL),(3,'damien','dland@email.com','2 rue du test','12345678Pass',NULL,NULL),(4,'TestHash','test@hash.com','2 rue du SHA','$argon2i$v=19$m=4096,t=3,p=1$VI6smBJqK0TBlJE2MykkqQ$KzkYzLAkTFzJP+ilUc0yhCR3riLAea836QADwniyONQ',NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -429,4 +438,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-15 12:12:18
+-- Dump completed on 2021-06-23 10:04:58
