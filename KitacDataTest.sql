@@ -169,7 +169,7 @@ CREATE TABLE `gender` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,6 +178,7 @@ CREATE TABLE `gender` (
 
 LOCK TABLES `gender` WRITE;
 /*!40000 ALTER TABLE `gender` DISABLE KEYS */;
+INSERT INTO `gender` VALUES (1,'Homme'),(2,'Femme'),(3,'Enfants');
 /*!40000 ALTER TABLE `gender` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,7 +282,7 @@ CREATE TABLE `products_images` (
   `link` varchar(255) DEFAULT NULL,
   `alt` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -290,6 +291,7 @@ CREATE TABLE `products_images` (
 
 LOCK TABLES `products_images` WRITE;
 /*!40000 ALTER TABLE `products_images` DISABLE KEYS */;
+INSERT INTO `products_images` VALUES (1,'https://www.dolcegabbana.com/dw/image/v2/AAGA_PRD/on/demandware.static/-/Sites-15/default/dwfe7b1b65/images/zoom/I3C02WHPAAQ_HR2ZI_0.jpg?sw=742&sh=944&sm=fit','Un pantalon pas beaux a fleur'),(2,'https://img01.ztat.net/article/spp-media-p1/9753872023d63b2b8bc9c9f7b89e7246/e79ee0b39bc34506922100f52cd1b13e.jpg?imwidth=762&filter=packshot','Une chemise incroyable'),(3,'https://witt.eu/product/resized/040/040.00ZUK92341-A01.069_7_bg.jpg','Une Robe tendance'),(4,'https://www.univers-decor.com/8087-thickbox_default/lot-de-2-rideaux-occultant-taupe-clair-140-x-260-cm.jpg','Des dideaux detailler'),(5,'http://www.lesdoucesnuitsdemae.com/media/catalog/product/cache/1/image/500x500/9df78eab33525d08d6e5fb8d27136e95/h/o/housse-couette-belle-nuit-1643470.jpg','Des drap funky');
 /*!40000 ALTER TABLE `products_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +335,7 @@ CREATE TABLE `size` (
   `size_number` int DEFAULT NULL,
   `size_letter` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -342,6 +344,7 @@ CREATE TABLE `size` (
 
 LOCK TABLES `size` WRITE;
 /*!40000 ALTER TABLE `size` DISABLE KEYS */;
+INSERT INTO `size` VALUES (1,34,'s'),(2,38,'M'),(3,42,'L'),(4,46,'XL'),(5,50,'2XL'),(6,54,'3XL'),(7,58,'4XL'),(8,62,'5XL');
 /*!40000 ALTER TABLE `size` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,4 +438,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-22 14:47:43
+-- Dump completed on 2021-06-23 10:04:58
