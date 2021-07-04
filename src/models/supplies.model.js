@@ -25,10 +25,16 @@ const deleteOne = (id) => {
   return connection.promise().query(sql, [id]);
 };
 
+const findSuppliesPerProductId = (id) => {
+  const sql = 'SELECT p.id, s.* FROM supplies s RIGHT JOIN products p ON p.supplies_id=s.id WHERE p.id=?';
+  return connection.promise().query(sql, [id]);
+};
+
 module.exports = {
   findMany,
   findOneById,
   createOne,
   updateOne,
   deleteOne,
+  findSuppliesPerProductId,
 };
