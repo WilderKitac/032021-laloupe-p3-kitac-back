@@ -125,7 +125,7 @@ const deleteOneUser = (req, res) => {
     });
 };
 
-const verifyCredentials = async (req, res, next) => {
+const verifyCredentials = async (req, res) => {
   const { email, password } = req.body;
   const [users] = await findOneByEmail(email);
   if (!users[0]) {

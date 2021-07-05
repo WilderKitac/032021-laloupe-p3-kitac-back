@@ -146,7 +146,7 @@ CREATE TABLE `characterises` (
   CONSTRAINT `fk_characterises_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`id`),
   CONSTRAINT `fk_characterises_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `fk_characterises_size` FOREIGN KEY (`size_id`) REFERENCES `size` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,6 +155,7 @@ CREATE TABLE `characterises` (
 
 LOCK TABLES `characterises` WRITE;
 /*!40000 ALTER TABLE `characterises` DISABLE KEYS */;
+INSERT INTO `characterises` VALUES (3,1,2,1),(3,2,2,2),(3,3,2,3),(3,4,2,4),(3,5,2,5),(3,6,2,6),(3,7,2,7),(3,8,2,9),(3,1,3,10),(3,2,3,11),(3,3,3,12),(3,4,3,13),(3,5,3,14),(3,6,3,15),(3,7,3,16),(3,8,3,17),(4,1,1,18),(4,2,1,19),(4,3,1,20),(4,4,1,21),(4,5,1,22),(4,6,1,23),(4,7,1,24),(4,8,1,25),(5,1,2,26),(5,2,2,27),(5,3,2,28),(5,4,2,29),(5,5,2,30),(5,6,2,31),(5,7,2,32),(5,8,2,33);
 /*!40000 ALTER TABLE `characterises` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +312,7 @@ CREATE TABLE `represents` (
   KEY `fk_represents_products_images` (`product_images_id`),
   CONSTRAINT `fk_represents_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `fk_represents_products_images` FOREIGN KEY (`product_images_id`) REFERENCES `products_images` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,6 +321,7 @@ CREATE TABLE `represents` (
 
 LOCK TABLES `represents` WRITE;
 /*!40000 ALTER TABLE `represents` DISABLE KEYS */;
+INSERT INTO `represents` VALUES (1,3,1),(2,4,2),(3,5,3),(4,6,4),(5,7,5);
 /*!40000 ALTER TABLE `represents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -438,4 +440,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-23 10:04:58
+-- Dump completed on 2021-06-23 17:17:07

@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/supplies.model');
+const { findMany, findOneById, createOne, updateOne, deleteOne, findSuppliesPerProductId } = require('../models/supplies.model');
 
 const getAllSupplies = (req, res) => {
   findMany()
@@ -95,10 +95,33 @@ const deleteOneSupplies = (req, res) => {
     });
 };
 
+const getSuppliesByProductId = (req, res, next) => {
+  let id;
+  if (req.productId) {
+    id = req.productId;
+  } else {
+    id = req.params.id;
+  }
+
+  findSuppliesPerProductId(id)
+    .then(([Product]) => {
+      if (Product.length === 0) {
+        res.status(404).send('Supplies not found for this product');
+      } else {
+        req.product.supplies = Product;
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 module.exports = {
   getAllSupplies,
   getOneSuppliesById,
   createOneSupplies,
   updateOneSupplies,
   deleteOneSupplies,
+  getSuppliesByProductId,
 };

@@ -24,6 +24,9 @@ const getOneProductById = (req, res, next) => {
     .then(([Product]) => {
       if (Product.length === 0) {
         res.status(404).send('Product not found');
+      } else if (req.product) {
+        req.product.maininformation = Product;
+        res.json(req.product);
       } else {
         res.json(Product[0]);
         next();

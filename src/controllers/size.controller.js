@@ -91,8 +91,8 @@ const deleteOneSize = (req, res) => {
     .catch((err) => {
       res.status(500).send(err.message);
     });
-  };
-  
+};
+
 const getSizeByProductId = (req, res, next) => {
   let id;
   if (req.productId) {
@@ -103,18 +103,13 @@ const getSizeByProductId = (req, res, next) => {
 
   findSizePerProductId(id)
     .then(([Product]) => {
-      if (Product.length === 0) {
-        res.status(404).send('Product not found');
-      } else {
-        req.product.size = Product;
-        res.json(req.product);
-      }
+      req.product.size = Product;
+      next();
     })
     .catch((err) => {
       res.status(500).send(err.message);
     });
 };
-
 
 module.exports = {
   getAllSize,
