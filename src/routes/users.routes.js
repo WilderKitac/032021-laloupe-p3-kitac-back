@@ -1,13 +1,26 @@
 const usersRouter = require('express').Router();
-const { getAllUsers, getOneUserById, createOneUser, updateOneUser, deleteOneUser, verifyCredentials } = require('../controllers/users.controller');
 
-usersRouter.get('/', getAllUsers);
+const {
+  getAllUsers,
+  getOneUserById,
+  getOneUserByEmail,
+  createOneUser,
+  updateOneUser,
+  deleteOneUser,
+  verifyCredentials,
+} = require('../controllers/users.controller');
+
+const { createToken, authorizationWithJsonWebToken, authorizationWithRefreshJsonWebToken, deleteRefreshToken } = require('../services/jwt');
+
+usersRouter.get('/', authorizationWithJsonWebToken, getAllUsers);
 usersRouter.get('/:id', getOneUserById);
-usersRouter.post('/', createOneUser, getOneUserById);
+usersRouter.post('/', authorizationWithJsonWebToken, createOneUser, getOneUserById);
 usersRouter.put('/:id', updateOneUser, getOneUserById);
 usersRouter.delete('/:id', deleteOneUser);
 usersRouter.post('/auth', verifyCredentials);
-// userRoutes.post('/register', register);
-// usersRoutes.post('/login', register);
+
+usersRouter.post('/login', getOneUserByEmail, verifyCredentials, createToken);
+usersRouter.post('/refresh_token', authorizationWithRefreshJsonWebToken, getOneUserById, createToken);
+usersRouter.post('/logout', authorizationWithJsonWebToken, deleteRefreshToken);
 
 module.exports = usersRouter;
