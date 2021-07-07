@@ -5,9 +5,11 @@ const jwt = require('jsonwebtoken');
 const { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET, JWT_LIFETIME } = process.env;
 
 const createToken = (req, res) => {
-  const token = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types }, ACCESS_JWT_SECRET, { expiresIn: Math.floor(JWT_LIFETIME / 1000) });
-  const refreshToken = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types }, REFRESH_JWT_SECRET, { expiresIn: 90 });
-  res.cookie('__refresh__token', refreshToken, { httpOnly: true, secure: false, maxAge: 90000, sameSite: 'lax' });
+  const token = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types_id }, ACCESS_JWT_SECRET, {
+    expiresIn: Math.floor(JWT_LIFETIME / 1000),
+  });
+  const refreshToken = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types_id }, REFRESH_JWT_SECRET, { expiresIn: 90 });
+  res.cookie('__refresh__token', refreshToken, { maxAge: 3600000 });
   res.json({ user: { id: req.user ? req.user.id : 0, email: req.user ? req.user.email : '' }, expires_in: Math.floor(JWT_LIFETIME / 1000), token });
 };
 
