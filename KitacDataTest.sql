@@ -225,6 +225,7 @@ CREATE TABLE `materials` (
   `material_price` float(5,2) NOT NULL,
   `quantity` int NOT NULL,
   `API_Mat_id` int DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -235,7 +236,7 @@ CREATE TABLE `materials` (
 
 LOCK TABLES `materials` WRITE;
 /*!40000 ALTER TABLE `materials` DISABLE KEYS */;
-INSERT INTO `materials` VALUES (1,'Lin',5.40,1000,NULL),(2,'Coton',1.23,2000,NULL),(3,'Flanelle',8.40,500,NULL),(4,'Soie',10.80,200,NULL);
+INSERT INTO `materials` VALUES (1,'Lin',5.40,1000,NULL,'https://www.publicdomainpictures.net/pictures/400000/velka/leinen-textil-hintergrund-textur.jpg'),(2,'Coton',1.23,2000,NULL,'https://www.publicdomainpictures.net/pictures/30000/velka/white-fabric-texture.jpg'),(3,'Flanelle',8.40,500,NULL,'https://www.mondialtissus.fr/media/catalog/product/cache/5a7b68a13efa2fc32f1f88cc4632d82f/2/e/2e435d8b83ec66ede81b7a7603d50ec3873c3256_153935.jpg'),(4,'Soie',10.80,200,NULL,'https://www.publicdomainpictures.net/pictures/250000/velka/silk-background-orange-fabric.jpg');
 /*!40000 ALTER TABLE `materials` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +284,7 @@ CREATE TABLE `products_images` (
   `link` varchar(255) DEFAULT NULL,
   `alt` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +293,7 @@ CREATE TABLE `products_images` (
 
 LOCK TABLES `products_images` WRITE;
 /*!40000 ALTER TABLE `products_images` DISABLE KEYS */;
-INSERT INTO `products_images` VALUES (1,'https://www.dolcegabbana.com/dw/image/v2/AAGA_PRD/on/demandware.static/-/Sites-15/default/dwfe7b1b65/images/zoom/I3C02WHPAAQ_HR2ZI_0.jpg?sw=742&sh=944&sm=fit','Un pantalon pas beaux a fleur'),(2,'https://img01.ztat.net/article/spp-media-p1/9753872023d63b2b8bc9c9f7b89e7246/e79ee0b39bc34506922100f52cd1b13e.jpg?imwidth=762&filter=packshot','Une chemise incroyable'),(3,'https://witt.eu/product/resized/040/040.00ZUK92341-A01.069_7_bg.jpg','Une Robe tendance'),(4,'https://www.univers-decor.com/8087-thickbox_default/lot-de-2-rideaux-occultant-taupe-clair-140-x-260-cm.jpg','Des dideaux detailler'),(5,'http://www.lesdoucesnuitsdemae.com/media/catalog/product/cache/1/image/500x500/9df78eab33525d08d6e5fb8d27136e95/h/o/housse-couette-belle-nuit-1643470.jpg','Des drap funky');
+INSERT INTO `products_images` VALUES (1,'https://www.dolcegabbana.com/dw/image/v2/AAGA_PRD/on/demandware.static/-/Sites-15/default/dwfe7b1b65/images/zoom/I3C02WHPAAQ_HR2ZI_0.jpg?sw=742&sh=944&sm=fit','Un pantalon pas beaux a fleur'),(2,'https://img01.ztat.net/article/spp-media-p1/9753872023d63b2b8bc9c9f7b89e7246/e79ee0b39bc34506922100f52cd1b13e.jpg?imwidth=762&filter=packshot','Une chemise incroyable'),(3,'https://witt.eu/product/resized/040/040.00ZUK92341-A01.069_7_bg.jpg','Une Robe tendance'),(4,'https://www.univers-decor.com/8087-thickbox_default/lot-de-2-rideaux-occultant-taupe-clair-140-x-260-cm.jpg','Des dideaux detailler'),(5,'http://www.lesdoucesnuitsdemae.com/media/catalog/product/cache/1/image/500x500/9df78eab33525d08d6e5fb8d27136e95/h/o/housse-couette-belle-nuit-1643470.jpg','Des drap funky'),(6,'https://live.staticflickr.com/4036/4682415035_c113db13c3_4k.jpg','Robe1(Hood?)'),(7,'https://live.staticflickr.com/1302/4682415031_344e0c8bf7_4k.jpg','Robe2(soirée?)'),(8,'https://live.staticflickr.com/4047/4682415045_0df9ac183a_4k.jpg','Robe3(étoiles?)');
 /*!40000 ALTER TABLE `products_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,7 +313,7 @@ CREATE TABLE `represents` (
   KEY `fk_represents_products_images` (`product_images_id`),
   CONSTRAINT `fk_represents_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `fk_represents_products_images` FOREIGN KEY (`product_images_id`) REFERENCES `products_images` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,7 +322,7 @@ CREATE TABLE `represents` (
 
 LOCK TABLES `represents` WRITE;
 /*!40000 ALTER TABLE `represents` DISABLE KEYS */;
-INSERT INTO `represents` VALUES (1,3,1),(2,4,2),(3,5,3),(4,6,4),(5,7,5);
+INSERT INTO `represents` VALUES (1,3,1),(2,4,2),(4,6,4),(5,7,5),(6,5,6),(7,5,7),(8,5,8);
 /*!40000 ALTER TABLE `represents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -440,4 +441,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-23 17:17:07
+-- Dump completed on 2021-07-06 10:04:21
