@@ -43,6 +43,22 @@ const getOneUserById = (req, res) => {
     });
 };
 
+const getOneUserByEmail = (req, res, next) => {
+  const { email } = req.body;
+  findOneByEmail(email)
+    .then(([users]) => {
+      if (users.length === 0) {
+        res.status(404).send('User not found');
+      } else {
+        req.user = users[0];
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 const createOneUser = async (req, res, next) => {
   const { name, email, address, clearPassword, phone, user_types_id } = req.body;
   const { error } = Joi.object({
@@ -80,7 +96,7 @@ const updateOneUser = async (req, res, next) => {
     name: Joi.string().max(100),
     email: Joi.string().email().max(100),
     address: Joi.string().max(255),
-    user_password: Joi.string().pattern(new RegExp('^(?=.[0-9])(?=.[a-z])(?=.[A-Z])(?=.[*.!@$%^&(){}[]:;<>,.?/]).{8,128}$')),
+    user_password: Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})')),
     phone: Joi.string().max(30),
     user_types_id: Joi.number().integer(),
   })
@@ -125,7 +141,7 @@ const deleteOneUser = (req, res) => {
     });
 };
 
-const verifyCredentials = async (req, res) => {
+const verifyCredentials = async (req, res, next) => {
   const { email, password } = req.body;
   const [users] = await findOneByEmail(email);
   if (!users[0]) {
@@ -134,7 +150,7 @@ const verifyCredentials = async (req, res) => {
     const [user] = users;
     const passwordIsValid = await verifyPassword(password, user.user_password);
     if (passwordIsValid) {
-      res.send("you're login");
+      next();
     } else {
       res.status(401).send('Your email or your password is wrong');
     }
@@ -144,6 +160,7 @@ const verifyCredentials = async (req, res) => {
 module.exports = {
   getAllUsers,
   getOneUserById,
+  getOneUserByEmail,
   createOneUser,
   updateOneUser,
   deleteOneUser,
