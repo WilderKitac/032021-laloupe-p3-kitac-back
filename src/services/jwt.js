@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 /* eslint-disable no-underscore-dangle */
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -5,10 +6,12 @@ const jwt = require('jsonwebtoken');
 const { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET, JWT_LIFETIME } = process.env;
 
 const createToken = (req, res) => {
-  const token = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types }, ACCESS_JWT_SECRET, { expiresIn: Math.floor(JWT_LIFETIME / 1000) });
-  const refreshToken = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types }, REFRESH_JWT_SECRET, { expiresIn: 90 });
-  res.cookie('__refresh__token', refreshToken, { httpOnly: true, secure: false, maxAge: 90000, sameSite: 'lax' });
-  res.json({ user: { id: req.user ? req.user.id : 0, email: req.user ? req.user.email : '' }, expires_in: Math.floor(JWT_LIFETIME / 1000), token });
+  const token = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types_id }, ACCESS_JWT_SECRET, {
+    expiresIn: JWT_LIFETIME,
+  });
+  const refreshToken = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types_id }, REFRESH_JWT_SECRET, { expiresIn: 90 });
+  res.cookie('refresh_token', refreshToken, { maxAge: 3600000 });
+  res.json({ id: req.user ? req.user.id : 0, role: req.user.user_types_id, token });
 };
 
 const authorizationWithJsonWebToken = (req, res, next) => {
@@ -22,12 +25,13 @@ const authorizationWithJsonWebToken = (req, res, next) => {
   }
   return res.status(401).send("You're not allowed to access this data");
 };
+// eslint-disable-next-line consistent-return
 const authorizationWithRefreshJsonWebToken = (req, res, next) => {
   // console.log('Cookie token: ', req.cookies.__refresh__token);
-  if (req.cookies.__refresh__token) {
-    jwt.verify(req.cookies.__refresh__token, REFRESH_JWT_SECRET, (err, decoded) => {
+  if (req.cookies.refresh_token) {
+    jwt.verify(req.cookies.refresh_token, REFRESH_JWT_SECRET, (err, decoded) => {
       if (err) {
-        res.clearCookie('__refresh__token');
+        res.clearCookie('refresh_token');
         return res.status(401).send("You're not allowed to access this data");
       }
       // console.log(decoded);
@@ -35,13 +39,13 @@ const authorizationWithRefreshJsonWebToken = (req, res, next) => {
       return next();
     });
   } else {
-    res.clearCookie('__refresh__token');
+    res.clearCookie('refresh_token');
     return res.status(401).send("You're not allowed to access this data");
   }
 };
 
 const deleteRefreshToken = (req, res) => {
-  res.clearCookie('__refresh__token');
+  res.clearCookie('refresh_token');
   return res.sendStatus(204);
 };
 

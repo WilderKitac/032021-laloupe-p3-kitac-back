@@ -33,7 +33,7 @@ const getOneUserById = (req, res) => {
   findOneById(id)
     .then(([Users]) => {
       if (Users.length === 0) {
-        res.status(404).send('User not found');
+        res.status(404).send('Utilisateur non trouvé');
       } else {
         res.json(Users[0]);
       }
@@ -48,7 +48,30 @@ const getOneUserByEmail = (req, res, next) => {
   findOneByEmail(email)
     .then(([users]) => {
       if (users.length === 0) {
-        res.status(404).send('User not found');
+        res.status(404).send('Utilisateur non trouvé');
+      } else {
+        // eslint-disable-next-line prefer-destructuring
+        req.user = users[0];
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const getOneUserByIdRefresh = (req, res, next) => {
+  let id;
+  if (req.userId) {
+    id = req.userId;
+  } else {
+    id = req.params.id;
+  }
+
+  findOneById(id)
+    .then(([users]) => {
+      if (users.length === 0) {
+        res.status(404).send('user not found');
       } else {
         req.user = users[0];
         next();
@@ -113,7 +136,7 @@ const updateOneUser = async (req, res, next) => {
       updateOne(req.body, req.params.id)
         .then(([results]) => {
           if (results.affectedRows === 0) {
-            res.status(404).send('User not found');
+            res.status(404).send('Utilisateur non trouvé');
           } else {
             next();
           }
@@ -122,7 +145,7 @@ const updateOneUser = async (req, res, next) => {
           res.status(500).send(err.message);
         });
     } else {
-      res.status(422).send('Email already used');
+      res.status(422).send('Cet email est déjà utilisé');
     }
   }
 };
@@ -131,7 +154,7 @@ const deleteOneUser = (req, res) => {
   deleteOne(req.params.id)
     .then(([results]) => {
       if (results.affectedRows === 0) {
-        res.status(404).send('User not found');
+        res.status(404).send('Utilisateur non trouvé');
       } else {
         res.sendStatus(204);
       }
@@ -145,14 +168,14 @@ const verifyCredentials = async (req, res, next) => {
   const { email, password } = req.body;
   const [users] = await findOneByEmail(email);
   if (!users[0]) {
-    res.status(404).send('User not found');
+    res.status(404).json('Utilisateur non trouvé');
   } else {
     const [user] = users;
     const passwordIsValid = await verifyPassword(password, user.user_password);
     if (passwordIsValid) {
       next();
     } else {
-      res.status(401).send('Your email or your password is wrong');
+      res.status(401).send('Mot de passe erroné');
     }
   }
 };
@@ -161,6 +184,7 @@ module.exports = {
   getAllUsers,
   getOneUserById,
   getOneUserByEmail,
+  getOneUserByIdRefresh,
   createOneUser,
   updateOneUser,
   deleteOneUser,

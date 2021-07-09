@@ -4,6 +4,7 @@ const {
   getAllUsers,
   getOneUserById,
   getOneUserByEmail,
+  getOneUserByIdRefresh,
   createOneUser,
   updateOneUser,
   deleteOneUser,
@@ -20,7 +21,7 @@ usersRouter.delete('/:id', deleteOneUser);
 usersRouter.post('/auth', verifyCredentials);
 
 usersRouter.post('/login', getOneUserByEmail, verifyCredentials, createToken);
-usersRouter.post('/refresh_token', authorizationWithRefreshJsonWebToken, getOneUserById, createToken);
+usersRouter.post('/refresh_token', authorizationWithRefreshJsonWebToken, getOneUserByIdRefresh, createToken);
 usersRouter.post('/logout', authorizationWithJsonWebToken, deleteRefreshToken);
 
 module.exports = usersRouter;
