@@ -9,7 +9,7 @@ const createToken = (req, res) => {
   const token = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types_id }, ACCESS_JWT_SECRET, {
     expiresIn: JWT_LIFETIME,
   });
-  const refreshToken = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types_id }, REFRESH_JWT_SECRET, { expiresIn: 90 });
+  const refreshToken = jwt.sign({ id: req.user ? req.user.id : 0, role: req.user.user_types_id }, REFRESH_JWT_SECRET, { expiresIn: 3600 });
   res.cookie('refresh_token', refreshToken, { maxAge: 3600000 });
   res.json({ id: req.user ? req.user.id : 0, role: req.user.user_types_id, token });
 };

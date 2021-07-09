@@ -5,7 +5,15 @@ const getAllProducts = (req, res) => {
   findMany()
     .then((results) => {
       const products = results[0];
-      res.json(products);
+      const prodImgs = [];
+      products.forEach((item, index, prods) => {
+        if (index === 0) {
+          prodImgs.push(item);
+        } else if (prodImgs[prodImgs.length - 1].id !== item.id) {
+          prodImgs.push(item);
+        }
+      });
+      res.json(prodImgs);
     })
     .catch((err) => {
       res.status(500).send(err.message);
