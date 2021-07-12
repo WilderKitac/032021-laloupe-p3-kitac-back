@@ -84,6 +84,8 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
+  `img_link` varchar(255) DEFAULT NULL,
+  `img_alt` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -94,7 +96,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Homme'),(2,'Femme'),(3,'Enfant'),(4,'Accessoire'),(5,'Deco');
+INSERT INTO `category` VALUES (1,'Homme','https://cdn.pixabay.com/photo/2017/08/02/10/03/people-2570596_960_720.jpg','img_homme'),(2,'Femme','https://cdn.pixabay.com/photo/2016/11/21/11/29/close-up-1844786_960_720.jpg','img_femme'),(3,'Enfant','https://cdn.pixabay.com/photo/2014/12/14/16/05/teddy-bear-567952_960_720.jpg','img_enfant'),(4,'Accessoire','https://cdn.pixabay.com/photo/2017/07/04/18/28/cloth-bag-2472107_960_720.jpg','img_accessoire'),(5,'Deco','https://cdn.pixabay.com/photo/2017/01/14/12/48/hotel-1979406_960_720.jpg','img_deco');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -388,7 +390,7 @@ CREATE TABLE `user_types` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -397,6 +399,7 @@ CREATE TABLE `user_types` (
 
 LOCK TABLES `user_types` WRITE;
 /*!40000 ALTER TABLE `user_types` DISABLE KEYS */;
+INSERT INTO `user_types` VALUES (2,'admin'),(3,'customer'),(4,'seamstress');
 /*!40000 ALTER TABLE `user_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -419,7 +422,7 @@ CREATE TABLE `users` (
   KEY `fk_user_type` (`user_types_id`),
   CONSTRAINT `fk_user_type` FOREIGN KEY (`user_types_id`) REFERENCES `user_types` (`id`),
   CONSTRAINT `fk_users_user_types` FOREIGN KEY (`user_types_id`) REFERENCES `user_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -428,7 +431,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'damien','dland@email.com','2 rue du test','12345678Pass',NULL,NULL),(3,'damien','dland@email.com','2 rue du test','12345678Pass',NULL,NULL),(4,'TestHash','test@hash.com','2 rue du SHA','$argon2i$v=19$m=4096,t=3,p=1$VI6smBJqK0TBlJE2MykkqQ$KzkYzLAkTFzJP+ilUc0yhCR3riLAea836QADwniyONQ',NULL,NULL);
+INSERT INTO `users` VALUES (2,'damien','dland@email.com','2 rue du test','12345678Pass',NULL,NULL),(3,'damien','dland@email.com','2 rue du test','12345678Pass',NULL,NULL),(4,'TestHash','test@hash.com','2 rue du SHA','$argon2i$v=19$m=4096,t=3,p=1$VI6smBJqK0TBlJE2MykkqQ$KzkYzLAkTFzJP+ilUc0yhCR3riLAea836QADwniyONQ',NULL,NULL),(5,'jwt','jwt@email.com','2 rue du JWT','$argon2i$v=19$m=4096,t=3,p=1$qt0fc92Y8NtWZXoxTxPHSg$ipg436BjYSUI133fDJZmINZDqHw+2p0d2SkLXxspIf0',NULL,2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -441,4 +444,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-06 10:04:21
+-- Dump completed on 2021-07-09 11:49:09
