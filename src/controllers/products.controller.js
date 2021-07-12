@@ -6,14 +6,14 @@ const getAllProducts = (req, res, next) => {
     .then((results) => {
       const products = results[0];
       const prodImgs = [];
-      products.forEach((item, index, prods) => {
+      products.forEach((item, index) => {
         if (index === 0) {
           prodImgs.push(item);
         } else if (prodImgs[prodImgs.length - 1].id !== item.id) {
           prodImgs.push(item);
         }
       });
-      //ajouter le contenu pour envoyer à la requête suivante
+      // ajouter le contenu pour envoyer à la requête suivante
       req.products = prodImgs;
       next();
     })
