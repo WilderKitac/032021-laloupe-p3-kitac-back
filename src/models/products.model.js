@@ -26,10 +26,17 @@ const deleteOne = (id) => {
   return connection.promise().query(sql, [id]);
 };
 
+const findManyWithCat = () => {
+  const sql =
+    'SELECT p.id id, c.id cat_id, c.name cat_name FROM products p JOIN category_product cp ON cp.product_id=p.id JOIN category c ON c.id=cp.category_id ORDER by p.id';
+  return connection.promise().query(sql);
+};
+
 module.exports = {
   findMany,
   findOneById,
   createOne,
   updateOne,
   deleteOne,
+  findManyWithCat,
 };

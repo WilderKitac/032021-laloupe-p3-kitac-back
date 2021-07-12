@@ -1,19 +1,41 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/products.model');
+const { findMany, findOneById, createOne, updateOne, deleteOne, findManyWithCat } = require('../models/products.model');
 
-const getAllProducts = (req, res) => {
+const getAllProducts = (req, res, next) => {
   findMany()
     .then((results) => {
       const products = results[0];
       const prodImgs = [];
-      products.forEach((item, index, prods) => {
+      products.forEach((item, index) => {
         if (index === 0) {
           prodImgs.push(item);
         } else if (prodImgs[prodImgs.length - 1].id !== item.id) {
           prodImgs.push(item);
         }
       });
-      res.json(prodImgs);
+      // ajouter le contenu pour envoyer à la requête suivante
+      req.products = prodImgs;
+      next();
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const getAllProductsWithCat = (req, res) => {
+  findManyWithCat()
+    .then((results) => {
+      const prodCats = results[0];
+      const prodImgCat = req.products.map((item) => {
+        const categories = [];
+        prodCats.forEach((cat) => {
+          if (item.id === cat.id) {
+            categories.push({ cat_id: cat.cat_id, cat_name: cat.cat_name });
+          }
+        });
+        return { ...item, categories };
+      });
+      res.json(prodImgCat);
     })
     .catch((err) => {
       res.status(500).send(err.message);
@@ -118,6 +140,7 @@ const deleteOneProduct = (req, res) => {
 module.exports = {
   getAllProducts,
   getOneProductById,
+  getAllProductsWithCat,
   createOneProduct,
   updateOneProduct,
   deleteOneProduct,
