@@ -3,17 +3,16 @@ const {
   getAllMaterials,
   getOneMaterialsById,
   createOneMaterials,
-  createAssetMaterial,
   updateOneMaterials,
   deleteOneMaterials,
 } = require('../controllers/materials.controller');
+const { uploadImage } = require('../controllers/fileUpload.controller');
 
 materialsRouter.get('/', getAllMaterials);
 materialsRouter.get('/:id', getOneMaterialsById);
-materialsRouter.post('/', createOneMaterials, getOneMaterialsById);
+materialsRouter.post('/', uploadImage, createOneMaterials, getOneMaterialsById);
 materialsRouter.put('/:id', updateOneMaterials, getOneMaterialsById);
 materialsRouter.delete('/:id', deleteOneMaterials);
 materialsRouter.post('/', createOneMaterials, getOneMaterialsById);
-materialsRouter.post('/Create', createAssetMaterial, getOneMaterialsById);
 
 module.exports = materialsRouter;

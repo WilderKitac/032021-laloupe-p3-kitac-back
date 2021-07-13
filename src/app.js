@@ -16,6 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use('/image', express.static('public/image'));
+
 app.get('/', (req, res) => {
   res.status(200).json({ foo: 'hello' });
 });
