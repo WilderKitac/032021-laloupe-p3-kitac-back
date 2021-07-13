@@ -1,4 +1,5 @@
 const Joi = require('joi');
+
 const { findMany, findOneById, createOne, updateOne, deleteOne, findMaterialsPerProductId } = require('../models/materials.model');
 
 const getAllMaterials = (req, res) => {
@@ -34,17 +35,18 @@ const getOneMaterialsById = (req, res) => {
 };
 
 const createOneMaterials = (req, res, next) => {
-  const { material_type, material_price, quantity, API_Mat_id } = req.body;
+  const { material_type, material_price, quantity, API_Mat_id, image } = req.itemAndImg;
   const { error } = Joi.object({
     material_type: Joi.string().max(100).required(),
     material_price: Joi.number().precision(2).required(),
     quantity: Joi.number().integer().required(),
     API_Mat_id: Joi.number().integer(),
-  }).validate({ material_type, material_price, quantity, API_Mat_id }, { abortEarly: false });
+    image: Joi.string().max(255),
+  }).validate({ material_type, material_price, quantity, API_Mat_id, image }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
-    createOne({ material_type, material_price, quantity, API_Mat_id })
+    createOne({ material_type, material_price, quantity, API_Mat_id, image })
       .then(([results]) => {
         res.status(201);
         req.materialsId = results.insertId;
