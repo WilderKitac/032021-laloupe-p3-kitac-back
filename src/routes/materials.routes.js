@@ -11,6 +11,7 @@ const { uploadImage } = require('../controllers/fileUpload.controller');
 materialsRouter.get('/', getAllMaterials);
 materialsRouter.get('/:id', getOneMaterialsById);
 materialsRouter.post('/', uploadImage, createOneMaterials, getOneMaterialsById);
+materialsRouter.post('/withImage/:id', uploadImage, updateOneMaterials, getOneMaterialsById);
 materialsRouter.put('/:id', updateOneMaterials, getOneMaterialsById);
 materialsRouter.delete('/:id', deleteOneMaterials);
 materialsRouter.post('/', createOneMaterials, getOneMaterialsById);

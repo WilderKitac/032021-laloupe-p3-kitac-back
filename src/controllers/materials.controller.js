@@ -59,19 +59,21 @@ const createOneMaterials = (req, res, next) => {
 };
 
 const updateOneMaterials = (req, res, next) => {
-  const { material_type, material_price, quantity, API_Mat_id } = req.body;
+  console.log(req.itemAndImg);
+  const { material_type, material_price, quantity, API_Mat_id, image } = req.itemAndImg;
   const { error } = Joi.object({
     material_type: Joi.string().max(100),
     material_price: Joi.number().precision(2),
     quantity: Joi.number().integer(),
     API_Mat_id: Joi.number().integer(),
+    image: Joi.string().max(255),
   })
     .min(1)
-    .validate({ material_type, material_price, quantity, API_Mat_id }, { abortEarly: false });
+    .validate({ material_type, material_price, quantity, API_Mat_id, image }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
-    updateOne(req.body, req.params.id)
+    updateOne(req.itemAndImg, req.params.id)
       .then(([results]) => {
         if (results.affectedRows === 0) {
           res.status(404).send('Materials not found');
