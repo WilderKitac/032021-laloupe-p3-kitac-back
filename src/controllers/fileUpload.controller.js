@@ -13,7 +13,8 @@ const uploadImage = (req, res, next) => {
   const upload = multer({ storage: storage }).single('file');
   upload(req, res, (err) => {
     if (err) {
-      res.status(500).json(err);
+      console.log('1');
+      res.status(500).json('err');
     } else {
       const configuration = JSON.parse(req.body.configuration);
       req.itemAndImg = {
