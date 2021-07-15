@@ -59,7 +59,34 @@ const createOneMaterials = (req, res, next) => {
 };
 
 const updateOneMaterials = (req, res, next) => {
-  console.log(req.itemAndImg);
+  const { material_type, material_price, quantity, API_Mat_id, image } = req.body;
+  const { error } = Joi.object({
+    material_type: Joi.string().max(100),
+    material_price: Joi.number().precision(2),
+    quantity: Joi.number().integer(),
+    API_Mat_id: Joi.number().integer(),
+    image: Joi.string().max(255),
+  })
+    .min(1)
+    .validate({ material_type, material_price, quantity, API_Mat_id, image }, { abortEarly: false });
+  if (error) {
+    res.status(422).json({ validationErrors: error.details });
+  } else {
+    updateOne(req.body, req.params.id)
+      .then(([results]) => {
+        if (results.affectedRows === 0) {
+          res.status(404).send('Materials not found');
+        } else {
+          next();
+        }
+      })
+      .catch((err) => {
+        res.status(500).send(err.message);
+      });
+  }
+};
+
+const updateOneMatImg = (req, res, next) => {
   const { material_type, material_price, quantity, API_Mat_id, image } = req.itemAndImg;
   const { error } = Joi.object({
     material_type: Joi.string().max(100),
@@ -82,6 +109,7 @@ const updateOneMaterials = (req, res, next) => {
         }
       })
       .catch((err) => {
+        console.log('erreurupdate');
         res.status(500).send(err.message);
       });
   }
@@ -128,6 +156,7 @@ module.exports = {
   getOneMaterialsById,
   createOneMaterials,
   updateOneMaterials,
+  updateOneMatImg,
   deleteOneMaterials,
   getMaterialsByProductId,
 };
