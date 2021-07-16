@@ -1,5 +1,14 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne, findImagesPerProductId } = require('../models/productsImages.model');
+const {
+  findMany,
+  findOneById,
+  findManyById,
+  createOne,
+  createMany,
+  updateOne,
+  deleteOne,
+  findImagesPerProductId,
+} = require('../models/productsImages.model');
 
 const getAllImages = (req, res) => {
   findMany()
@@ -34,6 +43,34 @@ const getOneImagesById = (req, res) => {
     });
 };
 
+const getManyImagesById = (req, res) => {
+  if (req.imagesIds.length === 1) {
+    findOneById(req.imagesIds[0])
+      .then(([Images]) => {
+        if (Images.length === 0) {
+          res.status(404).send('Images not found');
+        } else {
+          res.json(Images[0]);
+        }
+      })
+      .catch((err) => {
+        res.status(500).send(err.message);
+      });
+  } else {
+    findManyById(req.imagesIds)
+      .then(([Images]) => {
+        if (Images.length === 0) {
+          res.status(404).send('Images not found');
+        } else {
+          res.json(Images);
+        }
+      })
+      .catch((err) => {
+        res.status(500).send(err.message);
+      });
+  }
+};
+
 const createOneImages = (req, res, next) => {
   const { link, alt } = req.body;
   const { error } = Joi.object({
@@ -53,6 +90,22 @@ const createOneImages = (req, res, next) => {
         res.status(500).send(err.message);
       });
   }
+};
+
+const createManyImages = (req, res, next) => {
+  const imgArray = req.prodImages;
+  createMany(imgArray)
+    .then(([results]) => {
+      const idToSend = [];
+      for (let i = 0; i < results.affectedRows; i++) {
+        idToSend.push(results.insertId + i);
+      }
+      req.imagesIds = idToSend;
+      next();
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
 };
 
 const updateOneImages = (req, res, next) => {
@@ -119,7 +172,9 @@ const getImagesByProductId = (req, res, next) => {
 module.exports = {
   getAllImages,
   getOneImagesById,
+  getManyImagesById,
   createOneImages,
+  createManyImages,
   updateOneImages,
   deleteOneImages,
   getImagesByProductId,

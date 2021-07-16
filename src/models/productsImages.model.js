@@ -10,8 +10,21 @@ const findOneById = (id) => {
   return connection.promise().query(sql, [id]);
 };
 
+const findManyById = (ids) => {
+  let sql = 'SELECT * FROM products_images WHERE id=?';
+  for (let i = 1; i < ids.length; i++) {
+    sql += ' OR id=?';
+  }
+  return connection.promise().query(sql, [...ids]);
+};
+
 const createOne = (productsImages) => {
   const sql = 'INSERT INTO products_images SET ?';
+  return connection.promise().query(sql, [productsImages]);
+};
+
+const createMany = (productsImages) => {
+  const sql = 'INSERT INTO products_images (link, alt) VALUES ?';
   return connection.promise().query(sql, [productsImages]);
 };
 
@@ -34,7 +47,9 @@ const findImagesPerProductId = (id) => {
 module.exports = {
   findMany,
   findOneById,
+  findManyById,
   createOne,
+  createMany,
   updateOne,
   deleteOne,
   findImagesPerProductId,
