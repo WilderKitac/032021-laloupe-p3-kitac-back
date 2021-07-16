@@ -109,7 +109,7 @@ const updateOneMatImg = (req, res, next) => {
         }
       })
       .catch((err) => {
-        console.log('erreurupdate');
+        // console.log('erreurupdate');
         res.status(500).send(err.message);
       });
   }
