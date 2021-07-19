@@ -57,6 +57,14 @@ const getOneProductById = (req, res, next) => {
       } else if (req.product) {
         req.product.maininformation = Product;
         res.json(req.product);
+      } else if (req.body.category_ids) {
+        // fonction pour reconstruire le tableau pour la table de jointure
+        const rebuiltProdCat = [];
+        req.body.category_ids.forEach((item) => {
+          rebuiltProdCat.push([req.productId, parseInt(item, 10)]);
+        });
+        req.catProdArray = rebuiltProdCat;
+        next();
       } else {
         res.json(Product[0]);
         next();
@@ -69,6 +77,7 @@ const getOneProductById = (req, res, next) => {
 
 const createOneProduct = (req, res, next) => {
   const { name, description, difficulty, completion_time, product_price, pieces, supplies_id } = req.body;
+  console.log(req.body);
   const { error } = Joi.object({
     name: Joi.string().max(100).required(),
     description: Joi.string().max(255),
@@ -142,6 +151,7 @@ module.exports = {
   getOneProductById,
   getAllProductsWithCat,
   createOneProduct,
+  // buildProdCatTable,
   updateOneProduct,
   deleteOneProduct,
 };
