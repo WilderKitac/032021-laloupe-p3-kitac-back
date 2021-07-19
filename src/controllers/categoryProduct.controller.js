@@ -54,10 +54,10 @@ const createOneCategoryProduct = (req, res, next) => {
       });
   }
 };
-const assignManyCategoryProduct = (req, res) => {
+const assignManyCategoryProduct = (req, res, next) => {
   createMany(req.catProdArray)
     .then(() => {
-      res.send('Lien effectué');
+      next();
     })
     .catch((err) => {
       res.status(500).send(err.message);

@@ -12,10 +12,11 @@ const { getImagesByProductId } = require('../controllers/productsImages.controll
 const { getSizeByProductId } = require('../controllers/size.controller');
 const { getSuppliesByProductId } = require('../controllers/supplies.controller');
 const { assignManyCategoryProduct } = require('../controllers/categoryProduct.controller');
+const { assignManyMaterialProduct } = require('../controllers/madesOf.controller');
 
 productsRoute.get('/', getAllProducts, getAllProductsWithCat);
 productsRoute.get('/:id', getOneProductById);
-productsRoute.post('/', createOneProduct, getOneProductById, assignManyCategoryProduct);
+productsRoute.post('/', createOneProduct, getOneProductById, assignManyCategoryProduct, assignManyMaterialProduct);
 productsRoute.put('/:id', updateOneProduct, getOneProductById);
 productsRoute.delete('/:id', deleteOneProduct);
 productsRoute.get('/:id/productsheet', getMaterialsByProductId, getImagesByProductId, getSizeByProductId, getSuppliesByProductId, getOneProductById);
