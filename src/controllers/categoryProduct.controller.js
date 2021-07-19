@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/categoryProduct.model');
+const { findMany, findOneById, createOne, createMany, updateOne, deleteOne } = require('../models/categoryProduct.model');
 
 const getAllCategoryProduct = (req, res) => {
   findMany()
@@ -54,6 +54,15 @@ const createOneCategoryProduct = (req, res, next) => {
       });
   }
 };
+const assignManyCategoryProduct = (req, res) => {
+  createMany(req.catProdArray)
+    .then(() => {
+      res.send('Lien effectué');
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
 
 const updateOneCategoryProduct = (req, res, next) => {
   const { product_id, category_id } = req.body;
@@ -98,6 +107,7 @@ module.exports = {
   getAllCategoryProduct,
   getOneCategoryProductById,
   createOneCategoryProduct,
+  assignManyCategoryProduct,
   updateOneCategoryProduct,
   deleteOneCategoryProduct,
 };
