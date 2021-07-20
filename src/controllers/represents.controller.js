@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/represents.model');
+const { findMany, findOneById, createOne, createMany, updateOne, deleteOne } = require('../models/represents.model');
 
 const getAllRepresents = (req, res) => {
   findMany()
@@ -55,6 +55,16 @@ const createOneRepresents = (req, res, next) => {
   }
 };
 
+const assignManyImgsProduct = (req, res) => {
+  createMany(req.body)
+    .then(() => {
+      res.send('Images chargées et associées avec succès');
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 const updateOneRepresents = (req, res, next) => {
   const { product_id, product_images_id } = req.body;
   const { error } = Joi.object({
@@ -98,6 +108,7 @@ module.exports = {
   getAllRepresents,
   getOneRepresentsById,
   createOneRepresents,
+  assignManyImgsProduct,
   updateOneRepresents,
   deleteOneRepresents,
 };

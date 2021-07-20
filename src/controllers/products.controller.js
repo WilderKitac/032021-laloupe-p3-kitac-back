@@ -1,5 +1,16 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne, findManyWithCat } = require('../models/products.model');
+const { simpleFindMany, findMany, findOneById, createOne, updateOne, deleteOne, findManyWithCat } = require('../models/products.model');
+
+const simpleGetAllProd = (req, res) => {
+  simpleFindMany()
+    .then((results) => {
+      const prod = results[0];
+      res.json(prod);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
 
 const getAllProducts = (req, res, next) => {
   findMany()
@@ -49,7 +60,6 @@ const getOneProductById = (req, res, next) => {
   } else {
     id = req.params.id;
   }
-
   findOneById(id)
     .then(([Product]) => {
       if (Product.length === 0) {
@@ -57,13 +67,18 @@ const getOneProductById = (req, res, next) => {
       } else if (req.product) {
         req.product.maininformation = Product;
         res.json(req.product);
-      } else if (req.body.category_ids) {
-        // fonction pour reconstruire le tableau pour la table de jointure
+      } else if (req.body.category_ids && req.body.materials_ids) {
+        // fonction pour reconstruire les tableaux pour les tables de jointures
         const rebuiltProdCat = [];
         req.body.category_ids.forEach((item) => {
           rebuiltProdCat.push([req.productId, parseInt(item, 10)]);
         });
         req.catProdArray = rebuiltProdCat;
+        const rebuiltProdMaterial = [];
+        req.body.materials_ids.forEach((item) => {
+          rebuiltProdMaterial.push([req.productId, parseInt(item, 10)]);
+        });
+        req.materialProdArray = rebuiltProdMaterial;
         next();
       } else {
         res.json(Product[0]);
@@ -77,7 +92,6 @@ const getOneProductById = (req, res, next) => {
 
 const createOneProduct = (req, res, next) => {
   const { name, description, difficulty, completion_time, product_price, pieces, supplies_id } = req.body;
-  console.log(req.body);
   const { error } = Joi.object({
     name: Joi.string().max(100).required(),
     description: Joi.string().max(255),
@@ -147,6 +161,7 @@ const deleteOneProduct = (req, res) => {
 };
 
 module.exports = {
+  simpleGetAllProd,
   getAllProducts,
   getOneProductById,
   getAllProductsWithCat,

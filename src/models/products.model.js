@@ -1,5 +1,10 @@
 const connection = require('../db-connection');
 
+const simpleFindMany = () => {
+  const sql = 'SELECT * FROM products';
+  return connection.promise().query(sql);
+};
+
 const findMany = () => {
   const sql =
     'SELECT p.*, i.link, i.alt FROM products p JOIN represents r ON r.product_id=p.id LEFT JOIN products_images i ON i.id=r.product_images_id ORDER BY p.id';
@@ -33,6 +38,7 @@ const findManyWithCat = () => {
 };
 
 module.exports = {
+  simpleFindMany,
   findMany,
   findOneById,
   createOne,
