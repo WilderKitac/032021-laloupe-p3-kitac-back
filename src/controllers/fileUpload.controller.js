@@ -42,7 +42,7 @@ const uploadMultImages = (req, res, next) => {
     } else {
       const imgProperty = req.files;
       const imgToCreate = [];
-      imgProperty.forEach((e) => imgToCreate.push([e.filename, e.originalname]));
+      imgProperty.forEach((e) => imgToCreate.push([e.filename, e.originalname.split('.')[0]]));
       req.prodImages = imgToCreate;
       next();
     }
