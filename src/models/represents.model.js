@@ -16,7 +16,6 @@ const createOne = (represents) => {
 };
 
 const createMany = (prodImgs) => {
-  console.log(prodImgs);
   const sql = 'INSERT INTO represents (product_id, product_images_id) VALUES ?';
   return connection.promise().query(sql, [prodImgs]);
 };
