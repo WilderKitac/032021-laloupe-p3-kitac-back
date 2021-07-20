@@ -1,5 +1,16 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne, findManyWithCat } = require('../models/products.model');
+const { simpleFindMany, findMany, findOneById, createOne, updateOne, deleteOne, findManyWithCat } = require('../models/products.model');
+
+const simpleGetAllProd = (req, res) => {
+  simpleFindMany()
+    .then((results) => {
+      const prod = results[0];
+      res.json(prod);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
 
 const getAllProducts = (req, res, next) => {
   findMany()
@@ -150,6 +161,7 @@ const deleteOneProduct = (req, res) => {
 };
 
 module.exports = {
+  simpleGetAllProd,
   getAllProducts,
   getOneProductById,
   getAllProductsWithCat,

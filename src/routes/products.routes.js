@@ -1,5 +1,6 @@
 const productsRoute = require('express').Router();
 const {
+  simpleGetAllProd,
   getAllProducts,
   getOneProductById,
   createOneProduct,
@@ -15,6 +16,7 @@ const { assignManyCategoryProduct } = require('../controllers/categoryProduct.co
 const { assignManyMaterialProduct } = require('../controllers/madesOf.controller');
 
 productsRoute.get('/', getAllProducts, getAllProductsWithCat);
+productsRoute.get('/simple', simpleGetAllProd);
 productsRoute.get('/:id', getOneProductById);
 productsRoute.post('/', createOneProduct, getOneProductById, assignManyCategoryProduct, assignManyMaterialProduct);
 productsRoute.put('/:id', updateOneProduct, getOneProductById);

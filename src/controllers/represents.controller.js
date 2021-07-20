@@ -56,10 +56,9 @@ const createOneRepresents = (req, res, next) => {
 };
 
 const assignManyImgsProduct = (req, res) => {
-  console.log(req.body);
   createMany(req.body)
     .then(() => {
-      res.send('Images associées avec succès');
+      res.send('Images chargées et associées avec succès');
     })
     .catch((err) => {
       res.status(500).send(err.message);
