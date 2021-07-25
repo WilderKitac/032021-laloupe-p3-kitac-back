@@ -70,7 +70,7 @@ const createOneBuy = (req, res, next) => {
     size_id: Joi.number().integer(),
     material_id: Joi.number().integer(),
     supplies_id: Joi.number().integer(),
-    buying_date: Joi.date().greater('now'),
+    buying_date: Joi.number().integer(),
   }).validate({ product_id, user_id, quantity, size_id, material_id, supplies_id, buying_date }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
@@ -112,7 +112,7 @@ const updateOneBuy = (req, res, next) => {
     size_id: Joi.number().integer(),
     material_id: Joi.number().integer(),
     supplies_id: Joi.number().integer(),
-    buying_date: Joi.date().greater('now'),
+    buying_date: Joi.number().integer(),
   })
     .min(1)
     .validate({ product_id, user_id, quantity, size_id, material_id, supplies_id, buying_date }, { abortEarly: false });

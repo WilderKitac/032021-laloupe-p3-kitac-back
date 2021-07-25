@@ -3,7 +3,7 @@ const { getAllBuys, getOneBuyById, getManyBuysById, createManyBuysItem, updateOn
 
 buyRouter.get('/', getAllBuys);
 buyRouter.get('/:id', getOneBuyById);
-buyRouter.post('/', getManyBuysById, createManyBuysItem);
+buyRouter.post('/', createManyBuysItem, getManyBuysById);
 buyRouter.put('/:id', updateOneBuy, getOneBuyById);
 buyRouter.delete('/:id', deleteOneBuy);
 
