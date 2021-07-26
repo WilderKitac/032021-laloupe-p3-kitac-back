@@ -1,5 +1,10 @@
 const connection = require('../db-connection');
 
+const simpleFindMany = () => {
+  const sql = 'SELECT * FROM products';
+  return connection.promise().query(sql);
+};
+
 const findMany = () => {
   const sql =
     'SELECT p.*, i.link, i.alt FROM products p JOIN represents r ON r.product_id=p.id LEFT JOIN products_images i ON i.id=r.product_images_id ORDER BY p.id';
@@ -26,10 +31,18 @@ const deleteOne = (id) => {
   return connection.promise().query(sql, [id]);
 };
 
+const findManyWithCat = () => {
+  const sql =
+    'SELECT p.id id, c.id cat_id, c.name cat_name FROM products p JOIN category_product cp ON cp.product_id=p.id JOIN category c ON c.id=cp.category_id ORDER by p.id';
+  return connection.promise().query(sql);
+};
+
 module.exports = {
+  simpleFindMany,
   findMany,
   findOneById,
   createOne,
   updateOne,
   deleteOne,
+  findManyWithCat,
 };
