@@ -1,11 +1,52 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/products.model');
+const { simpleFindMany, findMany, findOneById, createOne, updateOne, deleteOne, findManyWithCat } = require('../models/products.model');
 
-const getAllProducts = (req, res) => {
+const simpleGetAllProd = (req, res) => {
+  simpleFindMany()
+    .then((results) => {
+      const prod = results[0];
+      res.json(prod);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const getAllProducts = (req, res, next) => {
   findMany()
     .then((results) => {
       const products = results[0];
-      res.json(products);
+      const prodImgs = [];
+      products.forEach((item, index) => {
+        if (index === 0) {
+          prodImgs.push(item);
+        } else if (prodImgs[prodImgs.length - 1].id !== item.id) {
+          prodImgs.push(item);
+        }
+      });
+      // ajouter le contenu pour envoyer à la requête suivante
+      req.products = prodImgs;
+      next();
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const getAllProductsWithCat = (req, res) => {
+  findManyWithCat()
+    .then((results) => {
+      const prodCats = results[0];
+      const prodImgCat = req.products.map((item) => {
+        const categories = [];
+        prodCats.forEach((cat) => {
+          if (item.id === cat.id) {
+            categories.push({ cat_id: cat.cat_id, cat_name: cat.cat_name });
+          }
+        });
+        return { ...item, categories };
+      });
+      res.json(prodImgCat);
     })
     .catch((err) => {
       res.status(500).send(err.message);
@@ -19,7 +60,6 @@ const getOneProductById = (req, res, next) => {
   } else {
     id = req.params.id;
   }
-
   findOneById(id)
     .then(([Product]) => {
       if (Product.length === 0) {
@@ -27,6 +67,19 @@ const getOneProductById = (req, res, next) => {
       } else if (req.product) {
         req.product.maininformation = Product;
         res.json(req.product);
+      } else if (req.body.category_ids && req.body.materials_ids) {
+        // fonction pour reconstruire les tableaux pour les tables de jointures
+        const rebuiltProdCat = [];
+        req.body.category_ids.forEach((item) => {
+          rebuiltProdCat.push([req.productId, parseInt(item, 10)]);
+        });
+        req.catProdArray = rebuiltProdCat;
+        const rebuiltProdMaterial = [];
+        req.body.materials_ids.forEach((item) => {
+          rebuiltProdMaterial.push([req.productId, parseInt(item, 10)]);
+        });
+        req.materialProdArray = rebuiltProdMaterial;
+        next();
       } else {
         res.json(Product[0]);
         next();
@@ -108,9 +161,12 @@ const deleteOneProduct = (req, res) => {
 };
 
 module.exports = {
+  simpleGetAllProd,
   getAllProducts,
   getOneProductById,
+  getAllProductsWithCat,
   createOneProduct,
+  // buildProdCatTable,
   updateOneProduct,
   deleteOneProduct,
 };

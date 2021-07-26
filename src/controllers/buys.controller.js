@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/buys.model');
+const { findMany, findOneById, findManyById, createOne, createMany, updateOne, deleteOne } = require('../models/buys.model');
 
 const getAllBuys = (req, res) => {
   findMany()
@@ -33,6 +33,34 @@ const getOneBuyById = (req, res) => {
     });
 };
 
+const getManyBuysById = (req, res) => {
+  if (req.buysIds.length === 1) {
+    findOneById(req.buysIds[0])
+      .then(([BuyItem]) => {
+        if (BuyItem.length === 0) {
+          res.status(404).send('Element non trouvé');
+        } else {
+          res.json(BuyItem[0]);
+        }
+      })
+      .catch((err) => {
+        res.status(500).send(err.message);
+      });
+  } else {
+    findManyById(req.buysIds)
+      .then(([BuyItems]) => {
+        if (BuyItems.length === 0) {
+          res.status(404).send('Elements non trouvés');
+        } else {
+          res.json(BuyItems);
+        }
+      })
+      .catch((err) => {
+        res.status(500).send(err.message);
+      });
+  }
+};
+
 const createOneBuy = (req, res, next) => {
   const { product_id, user_id, quantity, size_id, material_id, supplies_id, buying_date } = req.body;
   const { error } = Joi.object({
@@ -42,7 +70,7 @@ const createOneBuy = (req, res, next) => {
     size_id: Joi.number().integer(),
     material_id: Joi.number().integer(),
     supplies_id: Joi.number().integer(),
-    buying_date: Joi.date().greater('now'),
+    buying_date: Joi.number().integer(),
   }).validate({ product_id, user_id, quantity, size_id, material_id, supplies_id, buying_date }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
@@ -59,6 +87,22 @@ const createOneBuy = (req, res, next) => {
   }
 };
 
+const createManyBuysItem = (req, res, next) => {
+  const buysArray = req.body;
+  createMany(buysArray)
+    .then(([results]) => {
+      const idToSend = [];
+      for (let i = 0; i < results.affectedRows; i++) {
+        idToSend.push(results.insertId + i);
+      }
+      req.buysIds = idToSend;
+      next();
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 const updateOneBuy = (req, res, next) => {
   const { product_id, user_id, quantity, size_id, material_id, supplies_id, buying_date } = req.body;
   const { error } = Joi.object({
@@ -68,7 +112,7 @@ const updateOneBuy = (req, res, next) => {
     size_id: Joi.number().integer(),
     material_id: Joi.number().integer(),
     supplies_id: Joi.number().integer(),
-    buying_date: Joi.date().greater('now'),
+    buying_date: Joi.number().integer(),
   })
     .min(1)
     .validate({ product_id, user_id, quantity, size_id, material_id, supplies_id, buying_date }, { abortEarly: false });
@@ -106,7 +150,9 @@ const deleteOneBuy = (req, res) => {
 module.exports = {
   getAllBuys,
   getOneBuyById,
+  getManyBuysById,
   createOneBuy,
+  createManyBuysItem,
   updateOneBuy,
   deleteOneBuy,
 };

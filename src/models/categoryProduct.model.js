@@ -15,6 +15,11 @@ const createOne = (categoryProduct) => {
   return connection.promise().query(sql, [categoryProduct]);
 };
 
+const createMany = (productsCats) => {
+  const sql = 'INSERT INTO category_product (product_id, category_id) VALUES ?';
+  return connection.promise().query(sql, [productsCats]);
+};
+
 const updateOne = (categoryProduct, id) => {
   const sql = 'UPDATE category_product SET ? WHERE id=?';
   return connection.promise().query(sql, [categoryProduct, id]);
@@ -29,6 +34,7 @@ module.exports = {
   findMany,
   findOneById,
   createOne,
+  createMany,
   updateOne,
   deleteOne,
 };

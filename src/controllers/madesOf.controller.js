@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/madesOf.model');
+const { findMany, findOneById, createOne, createMany, updateOne, deleteOne } = require('../models/madesOf.model');
 
 const getAllMadesOf = (req, res) => {
   findMany()
@@ -54,6 +54,17 @@ const createOneMadesOf = (req, res, next) => {
   }
 };
 
+const assignManyMaterialProduct = (req, res) => {
+  const prodID = req.materialProdArray[0][0];
+  createMany(req.materialProdArray)
+    .then(() => {
+      res.json(prodID);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 const updateOneMadesOf = (req, res, next) => {
   const { product_id, materials_id } = req.body;
   const { error } = Joi.object({
@@ -97,6 +108,7 @@ module.exports = {
   getAllMadesOf,
   getOneMadesOfById,
   createOneMadesOf,
+  assignManyMaterialProduct,
   updateOneMadesOf,
   deleteOneMadesOf,
 };
