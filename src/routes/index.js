@@ -1,0 +1,36 @@
+const mainRouter = require('express').Router();
+const usersRoutes = require('./users.routes');
+const userTypesRoutes = require('./userTypes.routes');
+const productsRoutes = require('./products.routes');
+const buysRoutes = require('./buys.routes');
+const categoryRoutes = require('./category.routes');
+const suppliesRoutes = require('./supplies.routes');
+const sizeRoutes = require('./size.routes');
+const materialsRoutes = require('./materials.routes');
+const genderRoutes = require('./gender.routes');
+const madesOfRoutes = require('./madesOf.routes');
+const APIProductsRoutes = require('./APIProducts.routes');
+const imagesRoutes = require('./productsImages.routes');
+const representsRoutes = require('./represents.routes');
+const characterisesRoutes = require('./characterises.routes');
+const categoryProductRoutes = require('./categoryProduct.routes');
+const emailsRoutes = require('./emails.routes');
+
+mainRouter.use('/users', usersRoutes);
+mainRouter.use('/userTypes', userTypesRoutes);
+mainRouter.use('/products', productsRoutes);
+mainRouter.use('/buys', buysRoutes);
+mainRouter.use('/categories', categoryRoutes);
+mainRouter.use('/supplies', suppliesRoutes);
+mainRouter.use('/size', sizeRoutes);
+mainRouter.use('/materials', materialsRoutes);
+mainRouter.use('/gender', genderRoutes);
+mainRouter.use('/madesOf', madesOfRoutes);
+mainRouter.use('/apiproducts', APIProductsRoutes);
+mainRouter.use('/productsimages', imagesRoutes);
+mainRouter.use('/represents', representsRoutes);
+mainRouter.use('/characterises', characterisesRoutes);
+mainRouter.use('/categoryProduct', categoryProductRoutes);
+mainRouter.use('/send-email', emailsRoutes);
+
+module.exports = mainRouter;
