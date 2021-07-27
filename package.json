@@ -9,7 +9,7 @@
     "lint": "npx eslint --fix *.js src tests *.js",
     "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
     "test": "NODE_ENV=test jest --maxWorkers=1 --detectOpenHandles",
-    "precommit": "lint-staged && npm run test"
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",
