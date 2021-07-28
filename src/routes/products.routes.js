@@ -14,11 +14,12 @@ const { getSizeByProductId } = require('../controllers/size.controller');
 const { getSuppliesByProductId } = require('../controllers/supplies.controller');
 const { assignManyCategoryProduct } = require('../controllers/categoryProduct.controller');
 const { assignManyMaterialProduct } = require('../controllers/madesOf.controller');
+const { authorizationWithJsonWebToken } = require('../services/jwt');
 
 productsRoute.get('/', getAllProducts, getAllProductsWithCat);
 productsRoute.get('/simple', simpleGetAllProd);
 productsRoute.get('/:id', getOneProductById);
-productsRoute.post('/', createOneProduct, getOneProductById, assignManyCategoryProduct, assignManyMaterialProduct);
+productsRoute.post('/', authorizationWithJsonWebToken, createOneProduct, getOneProductById, assignManyCategoryProduct, assignManyMaterialProduct);
 productsRoute.put('/:id', updateOneProduct, getOneProductById);
 productsRoute.delete('/:id', deleteOneProduct);
 productsRoute.get('/:id/productsheet', getMaterialsByProductId, getImagesByProductId, getSizeByProductId, getSuppliesByProductId, getOneProductById);
