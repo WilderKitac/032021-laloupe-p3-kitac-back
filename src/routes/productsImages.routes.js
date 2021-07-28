@@ -9,12 +9,13 @@ const {
   deleteOneImages,
 } = require('../controllers/productsImages.controller');
 const { uploadMultImages } = require('../controllers/fileUpload.controller');
+const { authorizationWithJsonWebToken } = require('../services/jwt');
 
 productsImages.get('/', getAllImages);
 productsImages.get('/:id', getOneImagesById);
 productsImages.post('/', createOneImages, getOneImagesById);
-productsImages.post('/multer', uploadMultImages, createManyImages, getManyImagesById);
+productsImages.post('/multer', authorizationWithJsonWebToken, uploadMultImages, createManyImages, getManyImagesById);
 productsImages.put('/:id', updateOneImages, getOneImagesById);
-productsImages.delete('/:id', deleteOneImages);
+productsImages.delete('/:id', authorizationWithJsonWebToken, deleteOneImages);
 
 module.exports = productsImages;
