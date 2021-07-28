@@ -14,6 +14,8 @@ const {
 const { createToken, authorizationWithJsonWebToken, authorizationWithRefreshJsonWebToken, deleteRefreshToken } = require('../services/jwt');
 
 usersRouter.get('/', authorizationWithJsonWebToken, getAllUsers);
+// usersRouter.get('/', getAllUsers);
+
 usersRouter.get('/:id', getOneUserById);
 usersRouter.post('/', authorizationWithJsonWebToken, createOneUser, getOneUserById);
 usersRouter.put('/:id', updateOneUser, getOneUserById);

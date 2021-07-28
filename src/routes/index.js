@@ -15,6 +15,7 @@ const representsRoutes = require('./represents.routes');
 const characterisesRoutes = require('./characterises.routes');
 const categoryProductRoutes = require('./categoryProduct.routes');
 const emailsRoutes = require('./emails.routes');
+const contactRoutes = require('./contact.routes');
 
 mainRouter.use('/users', usersRoutes);
 mainRouter.use('/userTypes', userTypesRoutes);
@@ -32,5 +33,6 @@ mainRouter.use('/represents', representsRoutes);
 mainRouter.use('/characterises', characterisesRoutes);
 mainRouter.use('/categoryProduct', categoryProductRoutes);
 mainRouter.use('/send-email', emailsRoutes);
+mainRouter.use('/contact', contactRoutes);
 
 module.exports = mainRouter;
