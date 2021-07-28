@@ -18,19 +18,13 @@ const transport = nodemailer.createTransport({
 });
 
 contactRouter.post('/', (req, res) => {
-  const { user, cart } = req.body;
-  let message = '';
-  for (let i = 0; i < cart.length; i++) {
-    message += `<h1>Produit numéro ${i + 1} : ${cart[i].prodName}</h1> <p>Taille : ${cart[i].size}</p><p>Matière : ${
-      cart[i].material
-    }</p> <p>Fournitures : ${cart[i].supplies}</p> <p>Quantité : ${cart[i].quantity}</p> <p>Prix : ${cart[i].prodPrice.toFixed(2)}€</p>`;
-  }
+  const { name, email, message } = req.body;
 
   const mailOptionsHtml = {
     from: SENDER_EMAIL_ADDRESS,
     to: SENDER_EMAIL_ADDRESS,
-    // cc: email,
-    subject: `Panier envoyé depuis le site Kitac par ${user}`,
+    cc: email,
+    subject: `Message envoyé par ${name}`,
     html: `${message}`,
   };
 
