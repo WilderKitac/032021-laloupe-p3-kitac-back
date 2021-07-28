@@ -21,9 +21,9 @@ const authorizationWithJsonWebToken = (req, res, next) => {
     if (jwt.verify(token, ACCESS_JWT_SECRET)) {
       return next();
     }
-    return res.status(401).send("You're not allowed to access this data");
+    return res.status(401).send("Vous n'êtes pas autorisé à accéder à cette donnée");
   }
-  return res.status(401).send("You're not allowed to access this data");
+  return res.status(401).send("Vous n'êtes pas autorisé à accéder à cette donnée");
 };
 // eslint-disable-next-line consistent-return
 const authorizationWithRefreshJsonWebToken = (req, res, next) => {
@@ -32,7 +32,7 @@ const authorizationWithRefreshJsonWebToken = (req, res, next) => {
     jwt.verify(req.cookies.refresh_token, REFRESH_JWT_SECRET, (err, decoded) => {
       if (err) {
         res.clearCookie('refresh_token');
-        return res.status(401).send("You're not allowed to access this data");
+        return res.status(401).send("Vous n'êtes pas autorisé à accéder à cette donnée");
       }
       // console.log(decoded);
       req.userId = decoded.id;
@@ -40,7 +40,7 @@ const authorizationWithRefreshJsonWebToken = (req, res, next) => {
     });
   } else {
     res.clearCookie('refresh_token');
-    return res.status(401).send("You're not allowed to access this data");
+    return res.status(401).send("Vous n'êtes pas autorisé à accéder à cette donnée");
   }
 };
 
