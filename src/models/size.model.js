@@ -27,7 +27,7 @@ const deleteOne = (id) => {
 
 const findSizePerProductId = (id) => {
   const sql =
-    'SELECT p.id, g.*, s.* FROM products p JOIN characterises ch ON ch.product_id=p.id JOIN gender g ON g.id=ch.gender_id JOIN size s ON s.id=ch.size_id WHERE p.id=?';
+    'SELECT p.id, g.*, s.* FROM products p JOIN characterises ch ON ch.product_id=p.id LEFT JOIN gender g ON g.id=ch.gender_id JOIN size s ON s.id=ch.size_id WHERE p.id=?';
   return connection.promise().query(sql, [id]);
 };
 
