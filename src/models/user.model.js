@@ -17,7 +17,7 @@ const verifyPassword = (password, hashedPasword) => {
 };
 
 const findMany = () => {
-  const sql = 'SELECT * FROM users';
+  const sql = 'SELECT u.*, ut.title role FROM users u LEFT JOIN user_types ut ON ut.id=u.user_types_id';
   return connection.promise().query(sql);
 };
 
